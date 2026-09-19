@@ -780,6 +780,7 @@ function paintMenu(){
   const u = me();
   el('accMenu').innerHTML = u
     ? `<b>${esc(u.name)}</b><small>${esc(u.email)}</small>
+       ${u.isAdmin ? `<button onclick="go('admin');closeAll()" style="color:var(--brass);font-weight:700">All orders (admin)</button>` : ''}
        <button onclick="go('account');closeAll()">Account settings</button>
        <button onclick="go('orders');closeAll()">Your orders</button>
        <button onclick="go('saved');closeAll()">Saved items</button>
@@ -934,6 +935,7 @@ function go(view){
   V.view = view; if(view!=='checkout') V.coStep = 0; closeAll(); window.scrollTo({top:0,behavior:'instant'});
   paint();
   if(view==='orders') loadOrders().then(paint);
+  if(view==='admin') loadAdminOrders().then(paint);
 }
 function pickCat(c){ V.cat = c; V.q=''; el('q').value=''; el('qm').value=''; go('home'); }
 function openProduct(id){ V.pid = id; trackViewed(id); go('product'); }
@@ -1272,6 +1274,43 @@ function addAddressFromAccount(){
 /* ============ render: orders ============ */
 const ORDER_STAGES = ['Order placed','Processing','Shipped','Out for delivery','Delivered'];
 let SERVER_ORDERS = null;
+let ADMIN_ORDERS = null;
+async function loadAdminOrders(){
+  if(!me()?.isAdmin){ ADMIN_ORDERS = []; return; }
+  try{
+    const data = await api('/api/admin/orders');
+    ADMIN_ORDERS = data.orders;
+  }catch(err){ toast(err.message); }
+}
+function adminView(){
+  if(!me()?.isAdmin) return `<div class="page panel empty"><h3>Not authorized</h3><p>This page is only visible to the store admin.</p><button class="btn btn-ink" onclick="go('home')">Back to shopping</button></div>`;
+  const list = ADMIN_ORDERS || [];
+  if(!list.length) return `<div class="page panel empty"><h3>No orders yet</h3><p>Orders from every customer will show up here.</p></div>`;
+  return `<div class="page panel">
+    <h1>All orders</h1>
+    <p style="color:var(--muted)">${list.length} order${list.length===1?'':'s'} across every customer.</p>
+    ${list.map(o=>`
+      <div class="order">
+        <div class="head">
+          <div><span style="color:var(--muted)">Placed</span><b>${new Date(o.at).toLocaleDateString('en-NG',{day:'numeric',month:'short',year:'numeric'})}</b></div>
+          <div><span style="color:var(--muted)">Customer</span><b>${esc(o.customer.name)}</b></div>
+          <div><span style="color:var(--muted)">Total</span><b>${naira(o.total)}</b></div>
+          <div><span style="color:var(--muted)">Order #</span><b>${o.id}</b></div>
+          <span class="st">${ORDER_STAGES[o.stage]}</span>
+        </div>
+        <div class="items">
+          <div style="color:var(--muted);font-size:13.5px;margin-bottom:8px">${esc(o.customer.email)} · deliver to ${esc(o.ship.name)}, ${esc(o.ship.addr)}, ${esc(o.ship.city)}, ${esc(o.ship.state)} · ${esc(o.ship.phone)}</div>
+          ${o.items.map(i=>{ const p = prod(i.id); return `
+            <div class="line">
+              <div class="art">${p?artSVG(p):''}</div>
+              <div><h4>${esc(i.name)}</h4><div style="color:var(--muted);font-size:13.5px">Quantity ${i.qty} · ${naira(i.price)} each</div></div>
+              <div class="meta"><strong>${naira(i.price*i.qty)}</strong></div>
+            </div>`; }).join('')}
+          <div style="padding-top:12px;color:var(--muted);font-size:14px">${esc(o.shipLabel)} · Paid by ${esc(o.payLabel)}</div>
+        </div>
+      </div>`).join('')}
+  </div>`;
+}
 async function loadOrders(){
   if(!me()){ SERVER_ORDERS = []; return; }
   try{
@@ -1574,6 +1613,7 @@ function paint(){
     v==='saved'    ? savedView()    :
     v==='orders'   ? ordersView()   :
     v==='account'  ? accountView()  :
+    v==='admin'    ? adminView()    :
     v==='checkout' ? checkoutView() : homeView();
   paintCart();
 }

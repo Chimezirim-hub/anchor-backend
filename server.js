@@ -23,6 +23,7 @@ app.use('/api/orders', require('./routes/orders'));
 app.use('/api/wishlist', require('./routes/wishlist'));
 app.use('/api/notify', require('./routes/notify'));
 app.use('/api/reviews', require('./routes/reviews'));
+app.use('/api/admin', require('./routes/admin'));
 
 // Serves the frontend (public/anchor.html) at the same origin as the API,
 // so the browser never has to deal with cross-origin requests.

@@ -17,9 +17,7 @@ function signToken(user) {
   );
 }
 
-function publicUser(u) {
-  return { id: u.id, name: u.name, email: u.email };
-}
+function publicUser(u) { const isAdmin = !!process.env.ADMIN_EMAIL && u.email.toLowerCase() === process.env.ADMIN_EMAIL.toLowerCase(); return { id: u.id, name: u.name, email: u.email, isAdmin }; }
 
 router.post('/signup', (req, res) => {
   const { name, email, password } = req.body || {};
