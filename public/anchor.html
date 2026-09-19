@@ -1,0 +1,1612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anchor — Nigeria's everyday marketplace</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#110F1B; --surface:#1B1828; --surface2:#231F33; --line:#363051;
+  --text:#F5F3FB; --muted:#A199BC;
+  --indigo:#0A0912; --indigo-2:#2A2440;
+  --brass:#CBFF4D; --brass-ink:#12160A;
+  --sun:#FFC93C;
+  --palm:#35D399; --coral:#FF3E7F;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 16px 40px rgba(0,0,0,.5);
+  --radius:16px;
+  --display:"Fraunces","Iowan Old Style",Georgia,serif;
+  --body:"Manrope","Helvetica Neue",Arial,sans-serif;
+}
+:root[data-theme="light"]{
+  --bg:#FAF9F4; --surface:#FFFFFF; --surface2:#F3F1FA; --line:#E5E1F0;
+  --text:#161320; --muted:#6C6482;
+  --indigo:#0A0912; --indigo-2:#2A2440;
+  --brass:#B8E62E; --brass-ink:#12160A;
+  --sun:#E3A400;
+  --palm:#159A6C; --coral:#E2245F;
+  --shadow:0 1px 2px rgba(22,19,32,.06), 0 12px 32px rgba(22,19,32,.1);
+  --radius:16px;
+  --display:"Fraunces","Iowan Old Style",Georgia,serif;
+  --body:"Manrope","Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:
+    radial-gradient(760px 460px at 10% -8%, rgba(214,255,62,.10), transparent 60%),
+    radial-gradient(680px 460px at 100% 0%, rgba(255,77,113,.08), transparent 55%),
+    var(--bg);
+  color:var(--text);
+  font-family:var(--body); font-size:16px; line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:none;padding:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--indigo-2);outline-offset:2px;border-radius:4px}
+h1,h2,h3,h4{font-family:var(--display);font-weight:700;line-height:1.1;margin:0;letter-spacing:-.015em}
+.wrap{max-width:1280px;margin:0 auto;padding:0 18px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- header ---------- */
+.top{background:var(--indigo);color:#fff;position:sticky;top:0;z-index:60}
+.top a{text-decoration:none}
+.topbar{display:flex;align-items:center;gap:14px;padding:12px 0}
+.brand{display:flex;align-items:center;gap:10px;color:#fff}
+.brand .mark{width:38px;height:38px;border-radius:12px;background:var(--brass);display:grid;place-items:center;flex:none;box-shadow:0 4px 18px rgba(214,255,62,.35)}
+.brand .mark svg{width:22px;height:22px}
+.brand .word{display:flex;flex-direction:column;align-items:flex-start;line-height:1}
+.brand .word b{font-family:var(--display);font-weight:800;font-size:25px;letter-spacing:-.035em}
+.brand .word i{font-style:normal;font-size:10px;letter-spacing:.16em;opacity:.7;font-weight:600}
+.search{flex:1;position:relative;min-width:0}
+.search input{
+  width:100%;padding:11px 44px 11px 16px;border-radius:999px;border:2px solid transparent;
+  background:#fff;color:#161221;font-size:15px;
+}
+.search input::placeholder{color:#8E8298}
+.search input:focus{border-color:var(--brass);outline:none}
+.search .go{position:absolute;right:5px;top:5px;width:34px;height:34px;border-radius:50%;background:var(--brass);display:grid;place-items:center;color:var(--brass-ink)}
+.sugg{
+  position:absolute;top:calc(100% + 8px);left:0;right:0;background:var(--surface);color:var(--text);
+  border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);overflow:hidden;display:none;z-index:70
+}
+.sugg.on{display:block}
+.sugg button{display:flex;gap:10px;align-items:center;width:100%;padding:9px 14px;text-align:left;font-size:14px}
+.sugg button:hover,.sugg button:focus-visible{background:var(--surface2)}
+.sugg .s-cat{margin-left:auto;color:var(--muted);font-size:12px}
+.acts{display:flex;align-items:center;gap:4px}
+.act{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;color:#fff;font-size:14px;white-space:nowrap}
+.act:hover{background:rgba(255,255,255,.12)}
+.act small{display:block;font-size:11px;opacity:.72;line-height:1.1}
+.act b{font-weight:700;font-size:14px}
+.cart-btn{position:relative}
+.pip{
+  position:absolute;top:1px;right:4px;min-width:19px;height:19px;padding:0 5px;border-radius:999px;
+  background:var(--brass);color:var(--brass-ink);font-size:11px;font-weight:700;display:grid;place-items:center
+}
+.rail{display:flex;gap:2px;overflow-x:auto;padding:0 0 9px;scrollbar-width:none}
+.rail::-webkit-scrollbar{display:none}
+.rail button{
+  padding:6px 13px;border-radius:999px;color:#fff;font-size:14px;white-space:nowrap;opacity:.85
+}
+.rail button:hover{background:rgba(255,255,255,.12);opacity:1}
+.rail button[aria-current="true"]{background:#fff;color:var(--indigo);font-weight:700;opacity:1}
+.msearch{display:none;padding:0 0 12px}
+
+/* ---------- hero ---------- */
+.hero{
+  background:linear-gradient(118deg,var(--indigo-2) 0%,var(--indigo) 58%);
+  color:#fff;border-radius:20px;margin:22px 0;padding:34px;overflow:hidden;
+  display:grid;grid-template-columns:1.15fr .85fr;gap:26px;align-items:center;position:relative
+}
+.hero::after{
+  content:"";position:absolute;inset:auto -60px -120px auto;width:340px;height:340px;border-radius:50%;
+  background:radial-gradient(circle at 30% 30%,rgba(214,255,62,.45),transparent 64%)
+}
+.hero h1{font-size:clamp(30px,4.4vw,52px);font-weight:800;max-width:14ch}
+.hero p{max-width:46ch;opacity:.86;margin:14px 0 22px}
+.hero-cta{display:flex;gap:10px;flex-wrap:wrap;position:relative;z-index:2}
+.collage{display:grid;grid-template-columns:1fr 1fr;gap:12px;position:relative;z-index:2}
+.collage figure{margin:0;background:#fff;border-radius:14px;padding:8px;box-shadow:0 14px 34px rgba(0,0,0,.25)}
+.collage figure:nth-child(2){transform:translateY(16px)}
+.collage figure:nth-child(3){transform:translateY(-10px)}
+.collage figcaption{font-size:12px;color:#161221;font-weight:700;padding:2px 4px 4px}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:11px 20px;border-radius:999px;font-weight:700;font-size:15px;border:2px solid transparent;transition:transform .08s ease
+}
+.btn:active{transform:translateY(1px)}
+.btn-brass{background:var(--brass);color:var(--brass-ink)}
+.btn-brass:hover{filter:brightness(1.06)}
+.btn-ghost{border-color:currentColor}
+.btn-ghost:hover{background:rgba(255,255,255,.12)}
+.btn-ink{background:var(--indigo);color:#fff}
+.btn-ink:hover{background:var(--indigo-2)}
+.btn-line{border-color:var(--line);color:var(--text)}
+.btn-line:hover{background:var(--surface2)}
+.btn-wide{width:100%}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+
+/* ---------- layout ---------- */
+.shell{display:grid;grid-template-columns:248px 1fr;gap:26px;align-items:start;padding-bottom:60px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.filters{padding:18px;position:sticky;top:132px}
+.fgroup{border-top:1px solid var(--line);padding:16px 0}
+.fgroup:first-of-type{border-top:none;padding-top:4px}
+.fgroup h4{font-size:15px;margin-bottom:10px}
+.fgroup label{display:flex;align-items:center;gap:9px;padding:4px 0;font-size:14.5px;cursor:pointer}
+.fgroup label .n{margin-left:auto;color:var(--muted);font-size:12.5px}
+input[type=checkbox],input[type=radio]{accent-color:var(--indigo);width:16px;height:16px}
+.range{display:flex;align-items:center;gap:8px}
+.range input{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:var(--surface2);font-size:14px}
+input[type=range]{accent-color:var(--brass);width:100%}
+.results-bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.results-bar h2{font-size:22px;margin-right:auto}
+.results-bar .count{color:var(--muted);font-weight:400;font-size:15px;font-family:var(--body)}
+select.sort{padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface)}
+.chiprow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.chip{display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);padding:5px 11px;border-radius:999px;font-size:13px}
+.chip button{color:var(--muted);font-weight:700}
+
+/* ---------- product cards ---------- */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(212px,1fr));gap:16px}
+.card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;
+  display:flex;flex-direction:column;position:relative;transition:box-shadow .18s ease,border-color .18s ease,transform .18s ease
+}
+.card:hover{box-shadow:var(--shadow);border-color:var(--indigo-2);transform:translateY(-2px)}
+.card .thumb{width:100%;aspect-ratio:4/3;display:block;background:var(--surface2);border:none;padding:0}
+.card .thumb svg{display:block;width:100%;height:100%}
+.card .body{padding:12px 13px 14px;display:flex;flex-direction:column;gap:6px;flex:1}
+.card .brandline{font-size:12px;color:var(--muted);letter-spacing:.02em}
+.card h3{font-size:15px;font-weight:700;font-family:var(--body);line-height:1.3}
+.card h3 button{text-align:left;font:inherit}
+.card h3 button:hover{text-decoration:underline}
+.price{font-family:var(--display);font-size:20px;font-weight:700;color:var(--palm)}
+.was{font-size:13px;color:var(--muted);text-decoration:line-through;margin-left:6px;font-family:var(--body);font-weight:400}
+.stars{display:flex;align-items:center;gap:5px;font-size:12.5px;color:var(--muted)}
+.stars svg{width:13px;height:13px}
+.badge{position:absolute;top:10px;left:10px;background:var(--coral);color:#fff;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:999px}
+.heart{position:absolute;top:8px;right:8px;width:34px;height:34px;border-radius:50%;background:var(--surface);border:1px solid var(--line);display:grid;place-items:center;color:var(--muted)}
+.heart[aria-pressed="true"]{color:var(--coral);border-color:var(--coral)}
+.heart svg{width:17px;height:17px}
+.stock-low{color:var(--coral);font-size:12.5px;font-weight:700}
+.stock-out{color:var(--muted);font-size:12.5px;font-weight:700}
+.card .add{margin-top:auto}
+.empty{padding:60px 20px;text-align:center;color:var(--muted)}
+.empty h3{font-size:20px;color:var(--text);margin-bottom:6px}
+.viewedrow{display:flex;gap:12px;overflow-x:auto;padding-bottom:6px;scrollbar-width:thin}
+.viewed-card{flex:none;width:132px;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;text-align:left}
+.viewed-card:hover{border-color:var(--indigo-2)}
+.viewed-card .art{display:block;aspect-ratio:4/3;background:var(--surface2)}
+.viewed-card .art svg{width:100%;height:100%}
+.viewed-card .nm{display:block;padding:8px 9px 0;font-size:12.5px;line-height:1.3;height:2.6em;overflow:hidden}
+.viewed-card .pr{display:block;padding:2px 9px 9px;font-weight:700;color:var(--palm);font-size:13.5px}
+
+/* ---------- product detail ---------- */
+.pd{display:grid;grid-template-columns:1.05fr .95fr;gap:30px;padding:24px}
+.pd-art{background:var(--surface2);border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+.pd-art svg{width:100%;height:auto;display:block}
+.swatches{display:flex;gap:10px;margin-top:12px}
+.swatches button{width:62px;height:52px;border-radius:10px;border:2px solid var(--line);overflow:hidden;background:var(--surface2)}
+.swatches button[aria-current="true"]{border-color:var(--indigo)}
+.swatches svg{width:100%;height:100%}
+.pd h1{font-size:28px;margin-bottom:6px}
+.pd .kv{display:flex;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:14px;margin:8px 0 16px}
+.pd .priceblock{font-family:var(--display);font-size:34px;font-weight:800;color:var(--palm)}
+.bullets{padding-left:18px;margin:14px 0}
+.bullets li{margin:5px 0}
+.buybox{background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:16px;margin-top:18px}
+.qty{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px;background:var(--surface);overflow:hidden}
+.qty button{width:38px;height:38px;font-size:18px;font-weight:700}
+.qty span{min-width:34px;text-align:center;font-weight:700}
+.buyrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
+.reviews{padding:0 24px 28px;border-top:1px solid var(--line);margin-top:8px}
+.review{border-bottom:1px solid var(--line);padding:16px 0}
+.review:last-child{border-bottom:none}
+.review .who{font-weight:700}
+.review .when{color:var(--muted);font-size:13px}
+.rate-pick{display:flex;gap:4px;margin:8px 0}
+.rate-pick button{width:30px;height:30px;color:var(--line)}
+.rate-pick button.on{color:var(--sun)}
+.rate-pick svg{width:26px;height:26px}
+textarea{width:100%;min-height:90px;padding:11px;border-radius:10px;border:1px solid var(--line);background:var(--surface);resize:vertical}
+.crumbs{display:flex;gap:8px;align-items:center;color:var(--muted);font-size:14px;padding:16px 0}
+.crumbs button:hover{text-decoration:underline}
+
+/* ---------- drawers / modals ---------- */
+.scrim{position:fixed;inset:0;background:rgba(10,14,28,.55);opacity:0;pointer-events:none;transition:opacity .2s ease;z-index:90}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{
+  position:fixed;top:0;right:0;bottom:0;width:min(420px,100%);background:var(--surface);z-index:100;
+  transform:translateX(100%);transition:transform .24s ease;display:flex;flex-direction:column
+}
+.drawer.on{transform:none}
+.drawer header,.sheet header{display:flex;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid var(--line)}
+.drawer header h2,.sheet header h2{font-size:19px;margin-right:auto}
+.x{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line)}
+.x:hover{background:var(--surface2)}
+.drawer .body{flex:1;overflow:auto;padding:8px 18px}
+.drawer footer{border-top:1px solid var(--line);padding:16px 18px;background:var(--surface2)}
+.line{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
+.line .art{width:76px;height:64px;border-radius:10px;overflow:hidden;background:var(--surface2);flex:none}
+.line .art svg{width:100%;height:100%}
+.line h4{font-size:14.5px;font-family:var(--body);font-weight:700}
+.line .meta{margin-left:auto;text-align:right}
+.mini{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px}
+.mini button{width:30px;height:30px;font-weight:700}
+.mini span{min-width:26px;text-align:center;font-size:14px;font-weight:700}
+.link{color:var(--indigo-2);font-weight:700;font-size:13px;text-decoration:underline}
+.totals div{display:flex;justify-content:space-between;padding:4px 0;font-size:15px}
+.totals .grand{font-family:var(--display);font-weight:800;font-size:22px;padding-top:10px;margin-top:6px;border-top:1px solid var(--line)}
+.promo{display:flex;gap:8px;margin:10px 0}
+.promo input{flex:1;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface)}
+
+.modal{
+  position:fixed;z-index:100;inset:0;display:none;place-items:center;padding:18px;overflow:auto
+}
+.modal.on{display:grid}
+.sheet{background:var(--surface);border-radius:18px;width:min(460px,100%);box-shadow:var(--shadow);overflow:hidden;max-height:92vh;display:flex;flex-direction:column}
+.sheet .body{padding:20px;overflow:auto}
+.tabs{display:flex;background:var(--surface2);border-bottom:1px solid var(--line)}
+.tabs button{flex:1;padding:13px;font-weight:700;color:var(--muted);border-bottom:3px solid transparent}
+.tabs button[aria-selected="true"]{color:var(--text);border-bottom-color:var(--brass);background:var(--surface)}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:13.5px;font-weight:700;margin-bottom:5px}
+.field input,.field select{width:100%;padding:11px 13px;border-radius:10px;border:1px solid var(--line);background:var(--surface)}
+.field input:focus,.field select:focus{border-color:var(--indigo-2);outline:none}
+.field .err{color:var(--coral);font-size:13px;margin-top:5px;display:none}
+.field.bad input{border-color:var(--coral)}
+.field.bad .err{display:block}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.note{font-size:13px;color:var(--muted);margin-top:14px}
+
+/* ---------- account menu ---------- */
+.menu{position:relative}
+.menu-pop{
+  position:absolute;right:0;top:calc(100% + 8px);background:var(--surface);color:var(--text);border:1px solid var(--line);
+  border-radius:12px;box-shadow:var(--shadow);min-width:214px;padding:7px;display:none;z-index:80
+}
+.menu-pop.on{display:block}
+.menu-pop b{display:block;padding:9px 11px 3px;font-size:14px}
+.menu-pop small{display:block;padding:0 11px 9px;color:var(--muted);border-bottom:1px solid var(--line);margin-bottom:5px}
+.menu-pop button{display:block;width:100%;text-align:left;padding:9px 11px;border-radius:8px;font-size:14.5px}
+.menu-pop button:hover{background:var(--surface2)}
+
+/* ---------- orders / checkout ---------- */
+.page{padding:24px;margin-bottom:40px}
+.page h1{font-size:30px;margin-bottom:6px}
+.order{border:1px solid var(--line);border-radius:12px;margin:16px 0;overflow:hidden}
+.order .head{display:flex;flex-wrap:wrap;gap:18px;background:var(--surface2);padding:13px 16px;font-size:13.5px;border-bottom:1px solid var(--line)}
+.order .head b{display:block;font-size:14.5px}
+.order .head .st{margin-left:auto;align-self:center;background:var(--palm);color:#fff;padding:4px 12px;border-radius:999px;font-weight:700;font-size:12.5px}
+.order .items{padding:6px 16px 14px}
+.steps{display:flex;gap:10px;margin:18px 0 22px;flex-wrap:wrap}
+.step{display:flex;align-items:center;gap:9px;color:var(--muted);font-size:14.5px}
+.step i{width:26px;height:26px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-style:normal;font-size:13px;font-weight:700}
+.step.on{color:var(--text);font-weight:700}
+.step.on i{background:var(--indigo);border-color:var(--indigo);color:#fff}
+.step.done i{background:var(--palm);border-color:var(--palm);color:#fff}
+.co{display:grid;grid-template-columns:1.25fr .75fr;gap:26px;align-items:start}
+.summary{background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:18px;position:sticky;top:132px}
+.pay-opt{display:flex;gap:11px;align-items:flex-start;border:1px solid var(--line);border-radius:12px;padding:13px;margin-bottom:10px;cursor:pointer;background:var(--surface)}
+.pay-opt.sel{border-color:var(--indigo);box-shadow:inset 0 0 0 1px var(--indigo)}
+.pay-opt small{display:block;color:var(--muted)}
+.done-mark{width:74px;height:74px;border-radius:50%;background:var(--palm);color:#fff;display:grid;place-items:center;margin:0 auto 16px}
+
+/* ---------- toast ---------- */
+.toasts{position:fixed;left:50%;transform:translateX(-50%);bottom:24px;z-index:120;display:flex;flex-direction:column;gap:9px;align-items:center;pointer-events:none}
+.toast{background:var(--indigo);color:#fff;padding:11px 18px;border-radius:999px;box-shadow:var(--shadow);font-size:14.5px;font-weight:500;animation:pop .22s ease}
+@keyframes pop{from{opacity:0;transform:translateY(10px)}}
+
+/* ---------- footer ---------- */
+footer.site{background:var(--indigo);color:#fff;padding:40px 0 30px;margin-top:20px}
+footer.site .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:26px}
+footer.site h4{font-size:15px;margin-bottom:9px}
+footer.site button{display:block;opacity:.8;font-size:14px;padding:3px 0}
+footer.site button:hover{opacity:1;text-decoration:underline}
+footer.site .fine{opacity:.65;font-size:13px;margin-top:26px;border-top:1px solid rgba(255,255,255,.2);padding-top:16px}
+
+.trust{background:var(--surface);border-bottom:1px solid var(--line)}
+.trust ul{display:flex;gap:26px;list-style:none;margin:0;padding:11px 0;overflow-x:auto;scrollbar-width:none;font-size:13.5px;color:var(--muted);font-weight:600}
+.trust ul::-webkit-scrollbar{display:none}
+.trust li{display:flex;align-items:center;gap:8px;white-space:nowrap}
+.trust svg{width:17px;height:17px;color:var(--palm);flex:none}
+.hero-stat{display:flex;gap:26px;flex-wrap:wrap;margin-top:22px;position:relative;z-index:2}
+.hero-stat b{display:block;font-family:var(--display);font-size:24px;font-weight:800}
+.hero-stat span{font-size:13px;opacity:.75}
+.deptrow{display:grid;grid-template-columns:repeat(7,1fr);gap:12px;margin:24px 0 30px}
+.dept{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 10px 12px;text-align:center;transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease}
+.dept:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--indigo-2)}
+.dept .ic{width:44px;height:44px;border-radius:12px;margin:0 auto 9px;display:grid;place-items:center}
+.dept .ic svg{width:23px;height:23px}
+.dept span{display:block;font-size:12.5px;font-weight:700}
+@media (max-width:980px){.deptrow{grid-template-columns:repeat(4,1fr)}}
+@media (max-width:520px){.deptrow{grid-template-columns:repeat(3,1fr)}}
+footer.site .flock{display:flex;align-items:center;gap:11px;margin-bottom:24px}
+footer.site .flock .mark{width:34px;height:34px;border-radius:11px;background:var(--brass);display:grid;place-items:center}
+footer.site .flock .mark svg{width:20px;height:20px}
+footer.site .flock b{font-family:var(--display);font-size:22px;font-weight:800;letter-spacing:-.03em}
+footer.site .fine{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}
+.mobilebar{display:none}
+.filter-open{display:none}
+
+@media (max-width:980px){
+  .shell{grid-template-columns:1fr}
+  .pd{grid-template-columns:1fr;padding:18px}
+  .co{grid-template-columns:1fr}
+  .summary{position:static}
+  .hero{grid-template-columns:1fr;padding:24px}
+  .filters{position:fixed;top:0;right:0;bottom:0;width:min(330px,88%);z-index:100;border-radius:0;overflow:auto;transform:translateX(100%);transition:transform .24s ease}
+  .filters.on{transform:none}
+  .filter-open{display:inline-flex}
+}
+@media (max-width:720px){
+  .topbar .search{display:none}
+  .msearch{display:block}
+  .act-label{display:none}
+  .act{padding:8px}
+  .hero .collage{display:none}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:12px}
+  .card .thumb{aspect-ratio:1/1}
+  .price{font-size:17px}
+  .row2{grid-template-columns:1fr}
+  .mobilebar{
+    display:flex;position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);
+    z-index:70;padding:7px 4px calc(7px + env(safe-area-inset-bottom))
+  }
+  .mobilebar button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;padding:5px;color:var(--muted)}
+  .mobilebar button[aria-current="true"]{color:var(--indigo-2);font-weight:700}
+  .mobilebar svg{width:21px;height:21px}
+  body{padding-bottom:62px}
+  .toasts{bottom:78px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms !important;transition-duration:.01ms !important}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="topbar">
+      <button class="brand" onclick="go('home')" aria-label="Anchor home">
+        <span class="mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#161600" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="4.4" r="2.1"/><path d="M12 6.5V21"/><path d="M7.6 9.2h8.8"/>
+            <path d="M4 14.2c0 4 3.6 6.8 8 6.8s8-2.8 8-6.8"/>
+          </svg>
+        </span>
+        <span class="word"><b>Anchor</b><i>MARKETPLACE</i></span>
+      </button>
+      <div class="search">
+        <input id="q" type="search" placeholder="Search Anchor for anything…" autocomplete="off" aria-label="Search products">
+        <button class="go" onclick="runSearch()" aria-label="Search">
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.4-3.4"/></svg>
+        </button>
+        <div class="sugg" id="sugg"></div>
+      </div>
+      <div class="acts">
+        <button class="act" onclick="go('saved')">
+          <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20s-7-4.6-7-9.4A4 4 0 0 1 12 8a4 4 0 0 1 7 2.6C19 15.4 12 20 12 20z"/></svg>
+          <span class="act-label"><small>Your</small><b>Saved</b></span>
+        </button>
+        <div class="menu">
+          <button class="act" id="accBtn" onclick="toggleMenu(event)">
+            <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="3.4"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
+            <span class="act-label"><small id="accHi">Hello, sign in</small><b id="accName">Account</b></span>
+          </button>
+          <div class="menu-pop" id="accMenu"></div>
+        </div>
+        <button class="act cart-btn" onclick="openCart()" aria-label="Open cart">
+          <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 4h2.2l2.2 11h10.2l2.2-8H6.4"/><circle cx="9" cy="19.5" r="1.5"/><circle cx="17" cy="19.5" r="1.5"/></svg>
+          <span class="act-label"><small>Your</small><b>Cart</b></span>
+          <i class="pip" id="pip" style="display:none">0</i>
+        </button>
+      </div>
+    </div>
+    <div class="msearch">
+      <div class="search">
+        <input id="qm" type="search" placeholder="Search Anchor…" autocomplete="off" aria-label="Search products">
+        <button class="go" onclick="runSearch(true)" aria-label="Search">
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.4-3.4"/></svg>
+        </button>
+      </div>
+    </div>
+    <nav class="rail" id="rail" aria-label="Categories"></nav>
+  </div>
+</header>
+
+<div class="trust">
+  <div class="wrap">
+    <ul>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.6"/><circle cx="17.5" cy="18" r="1.6"/></svg>Free delivery over ₦50,000</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 1 1 2.5 5.8"/><path d="M4 18v-5h5"/></svg>7-day free returns</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 3v6c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>Secure checkout</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 19a7 7 0 0 1 14 0"/><circle cx="12" cy="8" r="3.2"/></svg>Support, 8am–8pm daily</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Delivering to all 36 states</li>
+    </ul>
+  </div>
+</div>
+
+<main class="wrap" id="main"></main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="flock">
+      <span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#161600" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4.4" r="2.1"/><path d="M12 6.5V21"/><path d="M7.6 9.2h8.8"/><path d="M4 14.2c0 4 3.6 6.8 8 6.8s8-2.8 8-6.8"/></svg></span>
+      <b>Anchor</b>
+    </div>
+    <div class="cols">
+      <div>
+        <h4>Shop</h4>
+        <button onclick="pickCat('Phones')">Phones &amp; tablets</button>
+        <button onclick="pickCat('Electronics')">Electronics</button>
+        <button onclick="pickCat('Home')">Home &amp; kitchen</button>
+        <button onclick="pickCat('Groceries')">Groceries</button>
+      </div>
+      <div>
+        <h4>Your account</h4>
+        <button onclick="go('orders')">Orders</button>
+        <button onclick="go('saved')">Saved items</button>
+        <button onclick="openAuth('login')">Sign in</button>
+      </div>
+      <div>
+        <h4>Delivery</h4>
+        <button onclick="toast('Standard delivery lands in 2–5 working days.')">Delivery times</button>
+        <button onclick="toast('Returns are free within 7 days of delivery.')">Returns</button>
+        <button onclick="toast('We deliver to all 36 states and the FCT.')">Where we deliver</button>
+      </div>
+      <div>
+        <h4>Anchor</h4>
+        <button onclick="toast('Anchor connects verified Nigerian sellers with shoppers in all 36 states.')">About us</button>
+        <button onclick="toggleTheme()">Switch light / dark</button>
+        <button onclick="resetAll()">Clear saved data</button>
+      </div>
+    </div>
+    <div class="fine">
+      <span>© 2026 Anchor Marketplace · Lagos · Port Harcourt · Abuja</span>
+      <span>Free returns within 7 days · Secure checkout · Nationwide delivery</span>
+    </div>
+  </div>
+</footer>
+
+<div class="scrim" id="scrim" onclick="closeAll()"></div>
+
+<aside class="drawer" id="cartDrawer" aria-label="Cart">
+  <header>
+    <h2>Your cart</h2>
+    <button class="x" onclick="closeAll()" aria-label="Close cart">✕</button>
+  </header>
+  <div class="body" id="cartBody"></div>
+  <footer id="cartFoot"></footer>
+</aside>
+
+<div class="modal" id="authModal" role="dialog" aria-modal="true" aria-label="Account">
+  <div class="sheet">
+    <div class="tabs">
+      <button id="tabLogin" aria-selected="true" onclick="switchAuth('login')">Sign in</button>
+      <button id="tabSignup" aria-selected="false" onclick="switchAuth('signup')">Create account</button>
+    </div>
+    <div class="body" id="authBody"></div>
+  </div>
+</div>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<script>
+/* ============ tiny helpers ============ */
+const $ = s => document.querySelector(s);
+const el = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const naira = n => '₦' + Math.round(n).toLocaleString('en-NG');
+
+/* ============ product artwork (no remote images allowed) ============ */
+const ART = {
+  headphones:(a,b)=>`<rect width="400" height="300" fill="${b}22"/><path d="M96 176v-24a104 104 0 0 1 208 0v24" fill="none" stroke="${a}" stroke-width="18" stroke-linecap="round"/><rect x="68" y="160" width="54" height="86" rx="24" fill="${a}"/><rect x="278" y="160" width="54" height="86" rx="24" fill="${a}"/><rect x="82" y="176" width="26" height="54" rx="13" fill="${b}"/><rect x="292" y="176" width="26" height="54" rx="13" fill="${b}"/>`,
+  laptop:(a,b)=>`<rect width="400" height="300" fill="${b}22"/><rect x="86" y="72" width="228" height="140" rx="10" fill="${a}"/><rect x="100" y="86" width="200" height="112" rx="5" fill="${b}"/><path d="M58 220h284l18 28H40z" fill="${a}"/><rect x="170" y="230" width="60" height="7" rx="3.5" fill="${b}"/>`,
+  phone:(a,b)=>`<rect width="400" height="300" fill="${b}22"/><rect x="146" y="34" width="108" height="232" rx="22" fill="${a}"/><rect x="157" y="50" width="86" height="196" rx="12" fill="${b}"/><circle cx="200" cy="256" r="6" fill="${b}"/><rect x="185" y="41" width="30" height="5" rx="2.5" fill="${b}"/>`,
+  watch:(a,b)=>`<rect width="400" height="300" fill="${b}22"/><rect x="166" y="30" width="68" height="76" rx="18" fill="${a}"/><rect x="166" y="194" width="68" height="76" rx="18" fill="${a}"/><rect x="142" y="92" width="116" height="116" rx="28" fill="${a}"/><rect x="156" y="106" width="88" height="88" rx="20" fill="${b}"/><path d="M200 130v22l16 12" stroke="${a}" stroke-width="7" fill="none" stroke-linecap="round"/>`,
+  speaker:(a,b)=>`<rect width="400" height="300" fill="${b}22"/><rect x="128" y="44" width="144" height="212" rx="24" fill="${a}"/><circle cx="200" cy="108" r="30" fill="${b}"/><circle cx="200" cy="108" r="12" fill="${a}"/><circle cx="200" cy="192" r="42" fill="${b}"/><circle cx="200" cy="192" r="17" fill="${a}"/>`,
+  camera:(a,b)=>`<rect width="400" height="300" fill="${b}22"/><path d="M76 96h52l20-24h104l20 24h52a16 16 0 0 1 16 16v104a16 16 0 0 1-16 16H76a16 16 0 0 1-16-16V112a16 16 0 0 1 16-16z" fill="${a}"/><circle cx="200" cy="164" r="50" fill="${b}"/><circle cx="200" cy="164" r="24" fill="${a}"/><circle cx="300" cy="120" r="9" fill="${b}"/>`,
+  tv:(a,b)=>`<rect width="400" height="300" fill="${b}22"/><rect x="44" y="52" width="312" height="180" rx="12" fill="${a}"/><rect x="58" y="66" width="284" height="152" rx="5" fill="${b}"/><path d="M160 252h80l10 22H150z" fill="${a}"/><rect x="120" y="270" width="160" height="10" rx="5" fill="${a}"/>`,
+  fan:(a,b)=>`<rect width="400" height="300" fill="${b}22"/><circle cx="200" cy="140" r="96" fill="${b}" stroke="${a}" stroke-width="12"/><path d="M200 140c0-48 12-72 44-72s34 52-44 72z" fill="${a}"/><path d="M200 140c42 24 50 48 34 76s-58-2-34-76z" fill="${a}"/><path d="M200 140c-42 24-84 12-90-20s54-38 90 20z" fill="${a}"/><circle cx="200" cy="140" r="16" fill="${a}"/><rect x="190" y="236" width="20" height="44" fill="${a}"/><rect x="152" y="272" width="96" height="14" rx="7" fill="${a}"/>`,
+  shirt:(a,b)=>`<rect width="400" height="300" fill="${b}22"/><path d="M152 46l-72 34 24 62 34-14v134h124V128l34 14 24-62-72-34-48 30z" fill="${a}"/><path d="M152 46l48 30 48-30-20-10h-56z" fill="${b}"/>`,
+  sneaker:(a,b)=>`<rect width="400" height="300" fill="${b}22"/><path d="M52 200c0-34 8-76 30-76 18 0 22 18 40 24 26 8 44-6 70 6l104 48c18 8 32 14 32 30v14H62c-6 0-10-24-10-46z" fill="${a}"/><path d="M52 226h276v22H62c-6 0-10-10-10-22z" fill="${b}"/><path d="M118 156l30 14M146 142l30 16M174 132l30 18" stroke="${b}" stroke-width="9" stroke-linecap="round"/>`,
+  bag:(a,b)=>`<rect width="400" height="300" fill="${b}22"/><path d="M92 106h216l20 160H72z" fill="${a}"/><path d="M148 116V86a52 52 0 0 1 104 0v30" fill="none" stroke="${a}" stroke-width="16"/><rect x="170" y="164" width="60" height="18" rx="9" fill="${b}"/>`,
+  chair:(a,b)=>`<rect width="400" height="300" fill="${b}22"/><path d="M110 60h180a24 24 0 0 1 24 24v88H86V84a24 24 0 0 1 24-24z" fill="${a}"/><rect x="74" y="172" width="252" height="44" rx="16" fill="${b}" stroke="${a}" stroke-width="10"/><path d="M104 216l-16 64M296 216l16 64" stroke="${a}" stroke-width="14" stroke-linecap="round"/>`,
+  lamp:(a,b)=>`<rect width="400" height="300" fill="${b}22"/><path d="M128 128l44-78h56l44 78z" fill="${a}"/><rect x="192" y="128" width="16" height="120" fill="${a}"/><ellipse cx="200" cy="256" rx="72" ry="18" fill="${a}"/><circle cx="200" cy="150" r="16" fill="${b}"/>`,
+  blender:(a,b)=>`<rect width="400" height="300" fill="${b}22"/><path d="M148 40h108l-12 128h-84z" fill="${b}" stroke="${a}" stroke-width="10"/><path d="M160 168h80l14 76H146z" fill="${a}"/><circle cx="222" cy="210" r="10" fill="${b}"/><rect x="132" y="244" width="136" height="20" rx="8" fill="${a}"/>`,
+  bottle:(a,b)=>`<rect width="400" height="300" fill="${b}22"/><rect x="176" y="34" width="48" height="40" rx="8" fill="${a}"/><path d="M164 74h72c14 0 24 14 24 30v134a26 26 0 0 1-26 26h-68a26 26 0 0 1-26-26V104c0-16 10-30 24-30z" fill="${a}"/><rect x="158" y="140" width="84" height="56" rx="8" fill="${b}"/>`,
+  jar:(a,b)=>`<rect width="400" height="300" fill="${b}22"/><rect x="140" y="80" width="120" height="30" rx="10" fill="${a}"/><path d="M148 110h104v108a22 22 0 0 1-22 22h-60a22 22 0 0 1-22-22z" fill="${a}"/><rect x="164" y="146" width="72" height="38" rx="8" fill="${b}"/>`,
+  sack:(a,b)=>`<rect width="400" height="300" fill="${b}22"/><path d="M132 78c26-14 110-14 136 0l22 158c4 24-14 32-90 32s-94-8-90-32z" fill="${a}"/><rect x="152" y="140" width="96" height="52" rx="8" fill="${b}"/><path d="M132 78c26 20 110 20 136 0" fill="none" stroke="${b}" stroke-width="10"/>`,
+  ball:(a,b)=>`<rect width="400" height="300" fill="${b}22"/><circle cx="200" cy="150" r="104" fill="${a}"/><path d="M200 46c-30 40-30 168 0 208M96 150h208M120 86c40 26 120 26 160 0M120 214c40-26 120-26 160 0" stroke="${b}" stroke-width="10" fill="none"/>`,
+  dumbbell:(a,b)=>`<rect width="400" height="300" fill="${b}22"/><rect x="60" y="106" width="40" height="88" rx="12" fill="${a}"/><rect x="104" y="86" width="44" height="128" rx="14" fill="${a}"/><rect x="252" y="86" width="44" height="128" rx="14" fill="${a}"/><rect x="300" y="106" width="40" height="88" rx="12" fill="${a}"/><rect x="148" y="132" width="104" height="36" rx="10" fill="${a}"/>`,
+  book:(a,b)=>`<rect width="400" height="300" fill="${b}22"/><path d="M88 52h104c14 0 20 8 20 20v186c0-12-8-18-20-18H88z" fill="${a}"/><path d="M312 52H208c-14 0-20 8-20 20v186c0-12 8-18 20-18h104z" fill="${a}" opacity=".75"/><rect x="188" y="52" width="12" height="188" fill="${b}"/>`,
+  kettle:(a,b)=>`<rect width="400" height="300" fill="${b}22"/><path d="M136 100h128v112a34 34 0 0 1-34 34h-60a34 34 0 0 1-34-34z" fill="${a}"/><path d="M264 128c34 0 40 56 0 56" fill="none" stroke="${a}" stroke-width="16"/><rect x="164" y="72" width="72" height="28" rx="10" fill="${a}"/><rect x="156" y="150" width="60" height="44" rx="8" fill="${b}"/>`,
+  router:(a,b)=>`<rect width="400" height="300" fill="${b}22"/><rect x="84" y="164" width="232" height="72" rx="16" fill="${a}"/><circle cx="130" cy="200" r="10" fill="${b}"/><circle cx="164" cy="200" r="10" fill="${b}"/><path d="M256 156V92M296 156V92" stroke="${a}" stroke-width="12" stroke-linecap="round"/><path d="M150 132a70 70 0 0 1 100 0M176 106a34 34 0 0 1 48 0" stroke="${a}" stroke-width="10" fill="none" stroke-linecap="round" opacity=".55"/>`
+};
+const artSVG = (p, alt=0) => {
+  const [a,b] = alt ? [p.c2,p.c1] : [p.c1,p.c2];
+  return `<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${esc(p.name)}">${ART[p.art](a,b)}</svg>`;
+};
+
+/* ============ catalogue ============ */
+const CATS = ['Phones','Electronics','Fashion','Home','Beauty','Groceries','Sports'];
+const DEPTS = [
+  {cat:'Phones',      bg:'rgba(203,255,77,.14)', fg:'#CBFF4D', icon:'<rect x="8" y="2" width="8" height="20" rx="2.4"/><path d="M11 18h2"/>'},
+  {cat:'Electronics', bg:'rgba(111,168,255,.14)', fg:'#6FA8FF', icon:'<rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/>'},
+  {cat:'Fashion',     bg:'rgba(255,62,127,.16)', fg:'#FF6FA0', icon:'<path d="M9 3l3 2 3-2 4 3-2 4h-2v11H8V10H6l-2-4z"/>'},
+  {cat:'Home',        bg:'rgba(53,211,153,.15)', fg:'#4FE0AA', icon:'<path d="M4 11l8-7 8 7v8a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1z"/>'},
+  {cat:'Beauty',      bg:'rgba(255,201,60,.15)', fg:'#FFD35C', icon:'<path d="M9 3h6v4H9z"/><path d="M8 7h8l1 13a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2z"/>'},
+  {cat:'Groceries',   bg:'rgba(255,159,67,.15)', fg:'#FFB067', icon:'<path d="M4 8h16l-1.5 11a2 2 0 0 1-2 2h-9a2 2 0 0 1-2-2z"/><path d="M9 8a3 3 0 0 1 6 0"/>'},
+  {cat:'Sports',      bg:'rgba(168,140,255,.16)', fg:'#A98CFF', icon:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c-3 3-3 15 0 18M12 3c3 3 3 15 0 18" opacity=".6"/>'},
+];
+const P = (id,name,brand,cat,art,price,was,rating,reviews,stock,c1,c2,desc,bullets)=>({id,name,brand,cat,art,price,was,rating,reviews,stock,c1,c2,desc,bullets});
+const PRODUCTS = [
+  P('p1','Sonari H7 noise-cancelling headphones','Sonari','Electronics','headphones',89500,112000,4.6,214,14,'#1E2A78','#E0A526','Forty hours of playback and a quiet mode that actually silences a generator two compounds away.',['40-hour battery, 10-minute fast charge','Adaptive noise cancelling with transparency mode','Folds flat into a hard travel case']),
+  P('p2','Lumo 14" ThinBook laptop, 16GB','Lumo','Electronics','laptop',742000,829000,4.4,98,6,'#0F7A55','#9FE3C4','A light aluminium laptop that handles spreadsheets, Figma and thirty browser tabs without warming up.',['Ryzen 7 processor, 16GB RAM, 512GB SSD','14" matte display, comfortable in daylight','Charges over USB-C from a power bank']),
+  P('p3','Kano X5 Pro 5G, 256GB','Kano','Phones','phone',398000,null,4.7,512,22,'#2B3C9E','#C9D3FF','Flagship camera, three-day battery, and dual SIM for the two numbers everybody carries.',['108MP main camera with night mode','5,000mAh battery, 67W charging','Dual SIM + microSD expansion']),
+  P('p4','Kano A3 budget smartphone, 128GB','Kano','Phones','phone',119500,138000,4.2,864,40,'#5C3A9E','#DCC9FF','The dependable second phone: big battery, big screen, small price.',['6.6" display, 90Hz refresh','5,000mAh battery lasts two days','Android 14 with three years of updates']),
+  P('p5','Zuri smartwatch, 46mm','Zuri','Electronics','watch',67000,84000,4.1,176,9,'#D9452F','#FFD9CF','Tracks steps, sleep and heart rate, and survives a full week between charges.',['7-day battery life','Heart rate, SpO₂ and sleep tracking','Swim-proof to 50 metres']),
+  P('p6','Bassline Roam portable speaker','Bassline','Electronics','speaker',48500,null,4.5,341,31,'#0F7A55','#BFF0DC','Loud enough for a rooftop, small enough for a backpack, waterproof enough for the rain.',['IPX7 waterproof housing','16 hours at half volume','Pair two for stereo sound']),
+  P('p7','Optika M200 mirrorless camera','Optika','Electronics','camera',985000,null,4.8,64,3,'#1E2A78','#F2C75C','A 24MP mirrorless body for people who have outgrown their phone camera.',['24MP APS-C sensor','4K/60 video with in-body stabilisation','Kit 18–55mm lens included']),
+  P('p8','Halogen 55" 4K smart TV','Halogen','Electronics','tv',489000,565000,4.3,207,7,'#141A2E','#8E9AC4','Four HDMI ports, a remote that survives children, and apps that load before you sit down.',['55" 4K HDR display','Built-in streaming apps and browser','Two-year manufacturer warranty']),
+  P('p9','Breeze 18" standing fan','Breeze','Home','fan',42500,49000,4.4,398,26,'#0F7A55','#CCEDDF','Quiet on low, serious on high, and it remembers its setting after a power cut.',['Three speeds with oscillation','Remote control and 8-hour timer','Copper motor rated for daily use']),
+  P('p10','Netgrid AX1800 mesh router','Netgrid','Electronics','router',128000,null,4.2,142,11,'#2B3C9E','#C9D3FF','Covers a three-bedroom flat without the dead corner by the kitchen.',['Wi-Fi 6, up to 1,800Mbps','Covers 180m² per unit','Guest network and parental controls']),
+  P('p11','Adire print cotton shirt','Aso Lagos','Fashion','shirt',28500,35000,4.6,289,48,'#1E2A78','#7FA8E8','Hand-dyed indigo on soft cotton, cut relaxed enough for the heat.',['100% cotton, pre-shrunk','Hand-dyed — no two are identical','Machine washable, cold']),
+  P('p12','Kicks Runner 4 trainers','Kicks','Sports','sneaker',56000,72000,4.5,431,19,'#D9452F','#FFD2C8','Cushioned trainers for road running and the long walk to the bus stop.',['Breathable knit upper','Foam midsole with 8mm drop','Reflective heel for evening runs']),
+  P('p13','Marché leather tote','Marché','Fashion','bag',74500,null,4.7,112,8,'#7A4A1E','#F0D6B8','Full-grain leather tote that fits a laptop, a lunchbox and a change of clothes.',['Full-grain leather, ages beautifully','Fits a 15" laptop','Interior zip pocket and key leash']),
+  P('p14','Ilé lounge armchair','Ilé','Home','chair',185000,219000,4.4,73,4,'#0F7A55','#CFE8DC','A low armchair with a solid frame and a cover you can actually remove and wash.',['Kiln-dried hardwood frame','Removable, washable cover','Assembles in under ten minutes']),
+  P('p15','Dusk arc floor lamp','Dusk','Home','lamp',63000,null,4.2,56,12,'#E0A526','#FFF0CC','Warm, dimmable light for the corner that the ceiling bulb never reaches.',['Three brightness levels','Weighted base, no tipping','LED bulb included, 15,000 hours']),
+  P('p16','Whirl 1000W blender','Whirl','Home','blender',37500,44000,4.3,524,35,'#D9452F','#FFD6CE','Crushes ice, pounds pepper, and cleans up in the sink without a fight.',['1000W motor, 4 stainless blades','1.5L shatterproof jar','Pulse mode for pepper and tomatoes']),
+  P('p17','Whirl 1.7L electric kettle','Whirl','Home','kettle',21500,null,4.5,612,44,'#1E2A78','#BFC9F2','Boils in three minutes and switches itself off before you notice.',['1.7L stainless interior','Auto shut-off and boil-dry protection','Cordless, 360° base']),
+  P('p18','Ese shea body butter, 250ml','Ese','Beauty','jar',9800,12500,4.8,903,60,'#7A4A1E','#F5DFC2','Unrefined shea whipped with coconut oil. One jar lasts a season.',['Unrefined Nigerian shea butter','No parabens or added fragrance','Sourced from a women-run co-op in Kwara']),
+  P('p19','Ese neroli eau de parfum, 50ml','Ese','Beauty','bottle',34000,null,4.4,187,15,'#E0A526','#FFF1CC','Neroli and vetiver — bright at first, warm by afternoon.',['50ml eau de parfum','Notes: neroli, vetiver, soft amber','Lasts six to eight hours']),
+  P('p20','Golden Harvest rice, 10kg','Golden Harvest','Groceries','sack',32500,38000,4.6,1204,80,'#0F7A55','#DCEFDF','Long-grain parboiled rice, destoned and bagged in Kebbi.',['10kg, long-grain parboiled','Destoned and double-sifted','Resealable woven bag']),
+  P('p21','Ìlà groundnut oil, 5 litres','Ìlà','Groceries','bottle',18900,21500,4.5,742,55,'#E0A526','#FFF3D1','Cold-pressed groundnut oil in a keg that pours without spilling.',['5L cold-pressed groundnut oil','No added preservatives','Wide-mouth cap for refilling']),
+  P('p22','Highland ball, size 5','Highland','Sports','ball',14500,null,4.3,268,33,'#141A2E','#B9C4E2','Match-weight football with a stitched cover that holds air for weeks.',['Size 5, machine-stitched','Butyl bladder holds pressure','Pump needle included']),
+  P('p23','Iron Co. adjustable dumbbell set, 20kg','Iron Co.','Sports','dumbbell',86000,99000,4.6,141,5,'#141A2E','#9FA9C9','One pair that replaces a rack — adjust from 2.5kg to 20kg per hand.',['2.5–20kg per dumbbell','Knurled steel handles','Locking collars included']),
+  P('p24','Lagos Noir — a novel','Ọ̀rọ̀ Press','Home','book',6500,8000,4.7,325,24,'#2B3C9E','#D6DDFF','A detective story that treats Lagos traffic as a character in its own right.',['Paperback, 342 pages','Winner, 2024 Nommo Award','Also available as an audiobook']),
+  P('p25','Sonari Buds Mini wireless earbuds','Sonari','Electronics','headphones',34500,41000,4.1,588,0,'#5C3A9E','#DCC9FF','Small, light earbuds that stay put on a run and charge in the case four times over.',['28 hours total with the case','IPX5 sweat resistant','Touch controls for calls and skip']),
+  P('p26','Aso Lagos wax print kaftan','Aso Lagos','Fashion','shirt',42000,null,4.5,164,17,'#D9452F','#FFDCCF','A wax print kaftan cut long, made for Friday evenings and Sunday afternoons.',['Cotton wax print, six yards','Side pockets, lined shoulders','Tailored in Lagos']),
+  P('p27','Marché slim card wallet','Marché','Fashion','bag',19500,24000,4.3,231,29,'#141A2E','#A9B4D6','Six cards and a few notes, flat enough for a front pocket.',['Full-grain leather','Six card slots and a note sleeve','RFID-blocking lining']),
+  P('p28','Ese clay face wash, 200ml','Ese','Beauty','jar',12500,null,4.2,376,38,'#0F7A55','#D3EEE1','A gentle clay cleanser for humid days and dusty harmattan mornings.',['Kaolin clay and aloe','Fragrance-free, pH balanced','Suitable for daily use']),
+];
+
+/* ============ persistence ============ */
+const KEY = 'anchor:v1';
+const blank = () => ({ users:{}, session:null, guest:{cart:[],wish:[],addresses:[],notify:[],viewed:[]}, data:{}, reviews:{}, theme:null });
+let S = blank();
+function load(){
+  try{ const raw = localStorage.getItem(KEY); if(raw) S = Object.assign(blank(), JSON.parse(raw)); }
+  catch(e){ S = blank(); }
+}
+function save(){
+  try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){ /* storage may be unavailable; the page still works for this visit */ }
+}
+function bucket(){
+  if(!S.session) return S.guest;
+  if(!S.data[S.session]) S.data[S.session] = {cart:[],wish:[],orders:[],addresses:[],notify:[],viewed:[]};
+  const b = S.data[S.session];
+  b.cart ||= []; b.wish ||= []; b.orders ||= []; b.addresses ||= []; b.notify ||= []; b.viewed ||= [];
+  return b;
+}
+const me = () => CURRENT_USER;
+let SERVER_CART = null; // populated from the API once signed in; null/unused for guests
+const cart = () => me() ? (SERVER_CART || []) : S.guest.cart;
+async function refreshCart(){
+  if(!me()) return;
+  try{
+    const data = await api('/api/cart');
+    SERVER_CART = data.cart.map(r=>({id:r.id, qty:r.qty}));
+  }catch(err){ /* leave whatever we had cached */ }
+}
+const wish = () => bucket().wish;
+const orders = () => bucket().orders || [];
+const addresses = () => bucket().addresses || [];
+const notifyList = () => bucket().notify || [];
+
+/* ============ view state ============ */
+let V = { view:'home', cat:'All', q:'', sort:'featured', minRating:0, maxPrice:1000000, inStock:false, brands:[], pid:null, promo:null, coStep:0, lastOrder:null, acctTab:'profile', addrForm:false, addrFormAcct:false };
+const prod = id => PRODUCTS.find(p=>p.id===id);
+function trackViewed(id){
+  const v = bucket().viewed ||= [];
+  const i = v.indexOf(id); if(i>-1) v.splice(i,1);
+  v.unshift(id);
+  bucket().viewed = v.slice(0,10);
+  save();
+}
+
+/* ============ toast ============ */
+function toast(msg){
+  const t = document.createElement('div');
+  t.className='toast'; t.textContent = msg;
+  el('toasts').appendChild(t);
+  setTimeout(()=>{ t.style.opacity='0'; t.style.transition='opacity .3s'; setTimeout(()=>t.remove(),320); }, 2600);
+}
+
+/* ============ theme ============ */
+function toggleTheme(){
+  const cur = document.documentElement.getAttribute('data-theme') || 'dark';
+  const next = cur==='dark' ? 'light' : 'dark';
+  if(next==='dark') document.documentElement.removeAttribute('data-theme');
+  else document.documentElement.setAttribute('data-theme', 'light');
+  S.theme = next==='dark' ? null : 'light'; save();
+  toast(next==='dark' ? 'Switched to dark.' : 'Switched to light.');
+}
+
+/* ============ stars ============ */
+const STAR = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.6l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.5 6.1 20.6l1.2-6.5L2.5 9.5l6.6-.9z"/></svg>';
+function stars(r, n){
+  let out = '<span class="stars" aria-label="Rated '+r+' out of 5">';
+  for(let i=1;i<=5;i++){
+    const fill = r >= i-0.25 ? 'var(--sun)' : (r >= i-0.75 ? 'var(--sun)' : 'var(--line)');
+    const op = r >= i-0.25 ? 1 : (r >= i-0.75 ? .5 : 1);
+    out += `<span style="color:${fill};opacity:${op};display:inline-flex">${STAR}</span>`;
+  }
+  out += `<span>${r.toFixed(1)}${n!==undefined?' ('+n.toLocaleString()+')':''}</span></span>`;
+  return out;
+}
+
+/* ============ derived ============ */
+function ratingOf(p){
+  const rs = S.reviews[p.id]||[];
+  if(!rs.length) return p.rating;
+  const mine = rs.reduce((a,r)=>a+r.rating,0);
+  return (p.rating*p.reviews + mine)/(p.reviews+rs.length);
+}
+function reviewCount(p){ return p.reviews + (S.reviews[p.id]||[]).length; }
+
+function filtered(){
+  let list = PRODUCTS.slice();
+  if(V.cat!=='All') list = list.filter(p=>p.cat===V.cat);
+  if(V.q.trim()){
+    const q = V.q.toLowerCase().trim();
+    list = list.filter(p => (p.name+' '+p.brand+' '+p.cat+' '+p.desc).toLowerCase().includes(q));
+  }
+  if(V.minRating) list = list.filter(p=>ratingOf(p)>=V.minRating);
+  list = list.filter(p=>p.price<=V.maxPrice);
+  if(V.inStock) list = list.filter(p=>p.stock>0);
+  if(V.brands.length) list = list.filter(p=>V.brands.includes(p.brand));
+  const s = V.sort;
+  if(s==='low') list.sort((a,b)=>a.price-b.price);
+  else if(s==='high') list.sort((a,b)=>b.price-a.price);
+  else if(s==='rating') list.sort((a,b)=>ratingOf(b)-ratingOf(a));
+  else if(s==='reviewed') list.sort((a,b)=>reviewCount(b)-reviewCount(a));
+  else list.sort((a,b)=>(b.was?1:0)-(a.was?1:0));
+  return list;
+}
+
+/* ============ cart maths ============ */
+const cartCount = () => cart().reduce((a,i)=>a+i.qty,0);
+const subtotal  = () => cart().reduce((a,i)=>a + (prod(i.id)?.price||0)*i.qty, 0);
+const PROMOS = { 'ANCHOR10':{type:'pct',v:.10,label:'10% off'}, 'NEWBIE':{type:'flat',v:2000,label:'₦2,000 off'}, 'FREESHIP':{type:'ship',v:0,label:'Free delivery'} };
+let shipChoice = 'standard';
+const SHIP = { standard:{label:'Standard, 2–5 days', fee:1500}, express:{label:'Express, next day', fee:3500}, pickup:{label:'Pick up at a hub', fee:0} };
+function discount(){
+  if(!V.promo) return 0;
+  const pr = PROMOS[V.promo];
+  if(pr.type==='pct') return subtotal()*pr.v;
+  if(pr.type==='flat') return Math.min(pr.v, subtotal());
+  return 0;
+}
+function shipFee(){
+  if(!cart().length) return 0;
+  if(V.promo && PROMOS[V.promo].type==='ship') return 0;
+  return SHIP[shipChoice].fee;
+}
+const grandTotal = () => Math.max(0, subtotal() - discount()) + shipFee();
+
+async function addToCart(id, qty=1){
+  const p = prod(id);
+  if(!p || p.stock<=0){ toast('That item is out of stock.'); return; }
+  if(!me()){
+    const line = S.guest.cart.find(i=>i.id===id);
+    const have = line ? line.qty : 0;
+    if(have + qty > p.stock){ toast(`Only ${p.stock} left in stock.`); return; }
+    if(line) line.qty += qty; else S.guest.cart.push({id,qty});
+    save(); paint();
+    toast(`${p.name.split(',')[0]} added to cart.`);
+    return;
+  }
+  try{
+    const data = await api('/api/cart', { method:'POST', body: JSON.stringify({ productId:id, qty }) });
+    SERVER_CART = data.cart.map(r=>({id:r.id, qty:r.qty}));
+    paint();
+    toast(`${p.name.split(',')[0]} added to cart.`);
+  }catch(err){ toast(err.message); }
+}
+async function setQty(id, qty){
+  if(qty<=0){ removeLine(id); return; }
+  const p = prod(id);
+  if(!me()){
+    const line = S.guest.cart.find(i=>i.id===id); if(!line) return;
+    if(qty>p.stock){ toast(`Only ${p.stock} left in stock.`); return; }
+    line.qty = qty; save(); paint();
+    return;
+  }
+  try{
+    const data = await api('/api/cart/'+id, { method:'PUT', body: JSON.stringify({ qty }) });
+    SERVER_CART = data.cart.map(r=>({id:r.id, qty:r.qty}));
+    paint();
+  }catch(err){ toast(err.message); }
+}
+async function removeLine(id){
+  if(!me()){
+    const i = S.guest.cart.findIndex(l=>l.id===id);
+    if(i>-1){ S.guest.cart.splice(i,1); save(); paint(); toast('Removed from cart.'); }
+    return;
+  }
+  try{
+    const data = await api('/api/cart/'+id, { method:'DELETE' });
+    SERVER_CART = data.cart.map(r=>({id:r.id, qty:r.qty}));
+    paint();
+    toast('Removed from cart.');
+  }catch(err){ toast(err.message); }
+}
+function toggleWish(id){
+  const w = wish(); const i = w.indexOf(id);
+  if(i>-1){ w.splice(i,1); toast('Removed from saved items.'); }
+  else { w.push(id); toast('Saved for later.'); }
+  save(); paint();
+}
+
+/* ============ overlays ============ */
+function openCart(){ el('cartDrawer').classList.add('on'); el('scrim').classList.add('on'); paintCart(); }
+function closeAll(){
+  document.querySelectorAll('.drawer,.modal,.filters,.menu-pop,.sugg').forEach(n=>n.classList.remove('on'));
+  el('scrim').classList.remove('on');
+}
+function toggleMenu(e){
+  e.stopPropagation();
+  const m = el('accMenu'); const on = m.classList.contains('on');
+  closeAll(); if(!on){ paintMenu(); m.classList.add('on'); }
+}
+document.addEventListener('click', e=>{
+  if(!e.target.closest('.menu')) el('accMenu').classList.remove('on');
+  if(!e.target.closest('.search')) el('sugg').classList.remove('on');
+});
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeAll(); });
+
+function paintMenu(){
+  const u = me();
+  el('accMenu').innerHTML = u
+    ? `<b>${esc(u.name)}</b><small>${esc(u.email)}</small>
+       <button onclick="go('account');closeAll()">Account settings</button>
+       <button onclick="go('orders');closeAll()">Your orders</button>
+       <button onclick="go('saved');closeAll()">Saved items</button>
+       <button onclick="toggleTheme();closeAll()">Light / dark mode</button>
+       <button onclick="signOut()">Sign out</button>`
+    : `<b>You're browsing as a guest</b><small>Sign in to keep your cart and orders</small>
+       <button onclick="openAuth('login')">Sign in</button>
+       <button onclick="openAuth('signup')">Create an account</button>
+       <button onclick="toggleTheme();closeAll()">Light / dark mode</button>`;
+}
+
+/* ============ auth ============ */
+let authTab = 'login';
+function openAuth(tab){ closeAll(); authTab = tab||'login'; el('authModal').classList.add('on'); el('scrim').classList.add('on'); switchAuth(authTab); }
+function switchAuth(tab){
+  authTab = tab;
+  el('tabLogin').setAttribute('aria-selected', tab==='login');
+  el('tabSignup').setAttribute('aria-selected', tab==='signup');
+  el('authBody').innerHTML = tab==='login' ? loginForm() : signupForm();
+  setTimeout(()=>{ const f = el('authBody').querySelector('input'); f && f.focus(); },30);
+}
+const loginForm = () => `
+  <h2 style="font-size:22px;margin-bottom:4px">Welcome back</h2>
+  <p style="color:var(--muted);margin:0 0 18px">Sign in to see your cart, saved items and orders.</p>
+  <div class="field" id="f-le"><label for="le">Email</label><input id="le" type="email" autocomplete="email" placeholder="you@example.com"><div class="err"></div></div>
+  <div class="field" id="f-lp"><label for="lp">Password</label><input id="lp" type="password" autocomplete="current-password" placeholder="Your password"><div class="err"></div></div>
+  <button class="btn btn-ink btn-wide" onclick="doLogin()">Sign in</button>
+  <p class="note">New to Anchor? <button class="link" onclick="switchAuth('signup')">Create an account</button></p>
+`;
+const signupForm = () => `
+  <h2 style="font-size:22px;margin-bottom:4px">Create your account</h2>
+  <p style="color:var(--muted);margin:0 0 18px">It takes about twenty seconds.</p>
+  <div class="field" id="f-sn"><label for="sn">Full name</label><input id="sn" autocomplete="name" placeholder="Chidi Okafor"><div class="err"></div></div>
+  <div class="field" id="f-se"><label for="se">Email</label><input id="se" type="email" autocomplete="email" placeholder="you@example.com"><div class="err"></div></div>
+  <div class="field" id="f-sp"><label for="sp">Password</label><input id="sp" type="password" autocomplete="new-password" placeholder="At least 6 characters"><div class="err"></div></div>
+  <div class="field" id="f-sc"><label for="sc">Confirm password</label><input id="sc" type="password" autocomplete="new-password" placeholder="Type it again"><div class="err"></div></div>
+  <button class="btn btn-ink btn-wide" onclick="doSignup()">Create account</button>
+  <p class="note">Already have one? <button class="link" onclick="switchAuth('login')">Sign in</button></p>`;
+
+function bad(id,msg){ const f = el('f-'+id); f.classList.add('bad'); f.querySelector('.err').textContent = msg; }
+function clearBad(){ document.querySelectorAll('.field').forEach(f=>f.classList.remove('bad')); }
+const emailOK = e => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e);
+
+/* ============ backend API (auth only, for now) ============ */
+let TOKEN = localStorage.getItem('anchor:token') || null;
+let CURRENT_USER = null;
+async function api(path, opts={}){
+  const headers = Object.assign({'Content-Type':'application/json'}, opts.headers||{});
+  if(TOKEN) headers['Authorization'] = 'Bearer ' + TOKEN;
+  let res;
+  try{
+    res = await fetch(path, Object.assign({}, opts, {headers}));
+  }catch(netErr){
+    const e = new Error('Could not reach the server. Is it still running?'); throw e;
+  }
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){ const e = new Error(data.error || 'Something went wrong.'); e.field = data.field; throw e; }
+  return data;
+}
+
+async function doSignup(){
+  clearBad();
+  const name = el('sn').value.trim(), email = el('se').value.trim().toLowerCase(),
+        pw = el('sp').value, cf = el('sc').value;
+  let ok = true;
+  if(name.length<2){ bad('sn','Enter the name you want on your orders.'); ok=false; }
+  if(!emailOK(email)){ bad('se','That email address looks incomplete.'); ok=false; }
+  if(pw.length<6){ bad('sp','Use at least six characters.'); ok=false; }
+  if(cf!==pw){ bad('sc','The two passwords do not match.'); ok=false; }
+  if(!ok) return;
+  const btn = event?.target; if(btn) btn.disabled = true;
+  try{
+    const data = await api('/api/auth/signup', { method:'POST', body: JSON.stringify({name, email, password: pw}) });
+    TOKEN = data.token; CURRENT_USER = data.user;
+    localStorage.setItem('anchor:token', TOKEN);
+    S.session = data.user.email;
+    if(!S.data[S.session]) S.data[S.session] = {cart:[],wish:[],orders:[],addresses:[],notify:[],viewed:[]};
+    await mergeGuest();
+    save(); closeAll(); paint();
+    toast(`Welcome to Anchor, ${data.user.name.split(' ')[0]}.`);
+  }catch(err){
+    const fieldMap = {name:'sn', email:'se', password:'sp'};
+    bad(fieldMap[err.field] || 'se', err.message);
+  }finally{
+    if(btn) btn.disabled = false;
+  }
+}
+async function doLogin(){
+  clearBad();
+  const email = el('le').value.trim().toLowerCase(), pw = el('lp').value;
+  if(!emailOK(email)){ bad('le','That email address looks incomplete.'); return; }
+  const btn = event?.target; if(btn) btn.disabled = true;
+  try{
+    const data = await api('/api/auth/login', { method:'POST', body: JSON.stringify({email, password: pw}) });
+    TOKEN = data.token; CURRENT_USER = data.user;
+    localStorage.setItem('anchor:token', TOKEN);
+    S.session = data.user.email;
+    if(!S.data[S.session]) S.data[S.session] = {cart:[],wish:[],orders:[],addresses:[],notify:[],viewed:[]};
+    await mergeGuest();
+    save(); closeAll(); paint();
+    toast(`Signed in as ${data.user.name.split(' ')[0]}.`);
+  }catch(err){
+    const fieldMap = {email:'le', password:'lp'};
+    bad(fieldMap[err.field] || 'le', err.message);
+  }finally{
+    if(btn) btn.disabled = false;
+  }
+}
+async function mergeGuest(){
+  const b = bucket();
+  for(const g of S.guest.cart){
+    try{ await api('/api/cart', { method:'POST', body: JSON.stringify({ productId: g.id, qty: g.qty }) }); }
+    catch(err){ /* one bad line shouldn't block the rest */ }
+  }
+  S.guest.wish.forEach(id=>{ if(!b.wish.includes(id)) b.wish.push(id); });
+  (S.guest.viewed||[]).forEach(id=>{ if(!b.viewed.includes(id)) b.viewed.push(id); });
+  S.guest = {cart:[],wish:[],addresses:[],notify:[],viewed:[]};
+  await refreshCart();
+}
+function signOut(){
+  const n = me()?.name.split(' ')[0];
+  TOKEN = null; CURRENT_USER = null; SERVER_CART = null;
+  localStorage.removeItem('anchor:token');
+  S.session = null; save(); closeAll(); go('home');
+  toast(`Signed out. See you soon${n?', '+n:''}.`);
+}
+function resetAll(){
+  if(!confirm('Clear the accounts, carts and orders saved on this device?')) return;
+  S = blank(); TOKEN = null; CURRENT_USER = null; SERVER_CART = null; localStorage.removeItem('anchor:token');
+  save(); V.promo=null; go('home'); toast('Saved data cleared.');
+}
+
+/* ============ search ============ */
+function runSearch(mobile){
+  V.q = (mobile ? el('qm').value : el('q').value);
+  if(mobile) el('q').value = V.q; else el('qm').value = V.q;
+  V.cat = 'All'; el('sugg').classList.remove('on');
+  go('home');
+}
+function suggest(){
+  const q = el('q').value.toLowerCase().trim();
+  const box = el('sugg');
+  if(q.length<2){ box.classList.remove('on'); return; }
+  const hits = PRODUCTS.filter(p=>(p.name+' '+p.brand).toLowerCase().includes(q)).slice(0,6);
+  if(!hits.length){ box.classList.remove('on'); return; }
+  box.innerHTML = hits.map(p=>`<button onclick="openProduct('${p.id}')"><span>${esc(p.name)}</span><span class="s-cat">${p.cat}</span></button>`).join('');
+  box.classList.add('on');
+}
+
+/* ============ navigation ============ */
+function go(view){
+  V.view = view; if(view!=='checkout') V.coStep = 0; closeAll(); window.scrollTo({top:0,behavior:'instant'});
+  paint();
+  if(view==='orders') loadOrders().then(paint);
+}
+function pickCat(c){ V.cat = c; V.q=''; el('q').value=''; el('qm').value=''; go('home'); }
+function openProduct(id){ V.pid = id; trackViewed(id); go('product'); }
+
+/* ============ render: header bits ============ */
+function paintChrome(){
+  el('rail').innerHTML = ['All',...CATS].map(c=>
+    `<button aria-current="${V.view==='home'&&V.cat===c}" onclick="pickCat('${c}')">${c==='All'?'All departments':c}</button>`).join('');
+  const n = cartCount();
+  el('pip').style.display = n ? 'grid' : 'none';
+  el('pip').textContent = n;
+  const u = me();
+  el('accHi').textContent = u ? 'Hello,' : 'Hello, sign in';
+  el('accName').textContent = u ? u.name.split(' ')[0] : 'Account';
+  document.querySelectorAll('.mobilebar button').forEach(b=>b.setAttribute('aria-current', b.dataset.v===V.view));
+}
+
+/* ============ render: cards ============ */
+function card(p){
+  const r = ratingOf(p), saved = wish().includes(p.id);
+  const off = p.was ? Math.round((1-p.price/p.was)*100) : 0;
+  return `<article class="card">
+    ${off?`<span class="badge">${off}% off</span>`:''}
+    <button class="heart" aria-pressed="${saved}" aria-label="${saved?'Remove from saved':'Save for later'}" onclick="toggleWish('${p.id}')">
+      <svg viewBox="0 0 24 24" fill="${saved?'currentColor':'none'}" stroke="currentColor" stroke-width="2"><path d="M12 20s-7-4.6-7-9.4A4 4 0 0 1 12 8a4 4 0 0 1 7 2.6C19 15.4 12 20 12 20z"/></svg>
+    </button>
+    <button class="thumb" onclick="openProduct('${p.id}')" aria-label="View ${esc(p.name)}">${artSVG(p)}</button>
+    <div class="body">
+      <span class="brandline">${esc(p.brand)}</span>
+      <h3><button onclick="openProduct('${p.id}')">${esc(p.name)}</button></h3>
+      ${stars(r, reviewCount(p))}
+      <div><span class="price">${naira(p.price)}</span>${p.was?`<span class="was">${naira(p.was)}</span>`:''}</div>
+      ${p.stock===0 ? '<span class="stock-out">Out of stock</span>' : (p.stock<8?`<span class="stock-low">Only ${p.stock} left</span>`:'')}
+      <div class="add">
+        <button class="btn btn-brass btn-wide" ${p.stock===0?'disabled':''} onclick="addToCart('${p.id}')">${p.stock===0?'Out of stock':'Add to cart'}</button>
+      </div>
+    </div>
+  </article>`;
+}
+
+/* ============ render: home ============ */
+function homeView(){
+  const list = filtered();
+  const brands = [...new Set(PRODUCTS.map(p=>p.brand))].sort();
+  const countIn = c => PRODUCTS.filter(p=>c==='All'||p.cat===c).length;
+  const chips = [];
+  if(V.q) chips.push(`<span class="chip">“${esc(V.q)}” <button onclick="V.q='';el('q').value='';el('qm').value='';paint()" aria-label="Clear search">✕</button></span>`);
+  if(V.cat!=='All') chips.push(`<span class="chip">${V.cat} <button onclick="V.cat='All';paint()" aria-label="Clear category">✕</button></span>`);
+  if(V.minRating) chips.push(`<span class="chip">${V.minRating}★ &amp; up <button onclick="V.minRating=0;paint()">✕</button></span>`);
+  if(V.maxPrice<1000000) chips.push(`<span class="chip">Under ${naira(V.maxPrice)} <button onclick="V.maxPrice=1000000;paint()">✕</button></span>`);
+  if(V.inStock) chips.push(`<span class="chip">In stock only <button onclick="V.inStock=false;paint()">✕</button></span>`);
+  V.brands.forEach(b=>chips.push(`<span class="chip">${esc(b)} <button onclick="V.brands=V.brands.filter(x=>x!=='${b.replace(/'/g,"\\'")}');paint()">✕</button></span>`));
+
+  const feat = [prod('p3'), prod('p1'), prod('p20'), prod('p12')];
+  const hero = (V.q||V.cat!=='All') ? '' : `
+    <section class="hero">
+      <div style="position:relative;z-index:2">
+        <h1>Shop with something to hold on to.</h1>
+        <p>Phones, groceries, furniture and the small things you forgot — from sellers we verify ourselves, at your door in two to five days, anywhere in Nigeria.</p>
+        <div class="hero-cta">
+          <button class="btn btn-brass" onclick="V.sort='featured';V.cat='All';paint()">Shop today's price drops</button>
+          <button class="btn btn-ghost" onclick="pickCat('Groceries')">Browse groceries</button>
+        </div>
+        <div class="hero-stat">
+          <div><b>4.6★</b><span>from 9,400 reviews</span></div>
+          <div><b>2–5 days</b><span>nationwide delivery</span></div>
+          <div><b>7 days</b><span>to change your mind</span></div>
+        </div>
+      </div>
+      <div class="collage">
+        ${feat.map(p=>`<figure><div style="border-radius:9px;overflow:hidden">${artSVG(p)}</div><figcaption>${naira(p.price)}</figcaption></figure>`).join('')}
+      </div>
+    </section>
+    <nav class="deptrow" aria-label="Shop by department">
+      ${DEPTS.map(d=>`<button class="dept" onclick="pickCat('${d.cat}')">
+        <span class="ic" style="background:${d.bg}"><svg viewBox="0 0 24 24" fill="none" stroke="${d.fg}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d.icon}</svg></span>
+        <span>${d.cat}</span>
+      </button>`).join('')}
+    </nav>`;
+
+  return `${hero}
+  <div class="shell">
+    <aside class="panel filters" id="filters">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+        <h3 style="font-size:18px;margin-right:auto">Filters</h3>
+        <button class="link" onclick="clearFilters()">Clear all</button>
+      </div>
+      <div class="fgroup">
+        <h4>Department</h4>
+        ${['All',...CATS].map(c=>`<label><input type="radio" name="cat" ${V.cat===c?'checked':''} onchange="V.cat='${c}';paint()"> ${c==='All'?'All departments':c}<span class="n">${countIn(c)}</span></label>`).join('')}
+      </div>
+      <div class="fgroup">
+        <h4>Maximum price</h4>
+        <input type="range" min="6000" max="1000000" step="1000" value="${V.maxPrice}" oninput="V.maxPrice=+this.value;el('priceOut').textContent=naira(V.maxPrice)" onchange="paint()" aria-label="Maximum price">
+        <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--muted)"><span>₦6,000</span><span id="priceOut">${naira(V.maxPrice)}</span></div>
+      </div>
+      <div class="fgroup">
+        <h4>Customer rating</h4>
+        ${[0,3,4,4.5].map(r=>`<label><input type="radio" name="rate" ${V.minRating===r?'checked':''} onchange="V.minRating=${r};paint()"> ${r? r+'★ &amp; up':'Any rating'}</label>`).join('')}
+      </div>
+      <div class="fgroup">
+        <h4>Brand</h4>
+        ${brands.map(b=>`<label><input type="checkbox" ${V.brands.includes(b)?'checked':''} onchange="toggleBrand('${b.replace(/'/g,"\\'")}')"> ${esc(b)}</label>`).join('')}
+      </div>
+      <div class="fgroup">
+        <label><input type="checkbox" ${V.inStock?'checked':''} onchange="V.inStock=this.checked;paint()"> In stock only</label>
+      </div>
+      <button class="btn btn-ink btn-wide" style="margin-top:14px" onclick="closeAll()">Show ${list.length} result${list.length===1?'':'s'}</button>
+    </aside>
+    <section>
+      <div class="results-bar">
+        <h2>${V.q ? 'Results for “'+esc(V.q)+'”' : (V.cat==='All'?'Popular right now':V.cat)} <span class="count">${list.length} item${list.length===1?'':'s'}</span></h2>
+        <button class="btn btn-line filter-open" onclick="openFilters()">Filters</button>
+        <select class="sort" onchange="V.sort=this.value;paint()" aria-label="Sort results">
+          <option value="featured" ${V.sort==='featured'?'selected':''}>Featured</option>
+          <option value="low" ${V.sort==='low'?'selected':''}>Price: low to high</option>
+          <option value="high" ${V.sort==='high'?'selected':''}>Price: high to low</option>
+          <option value="rating" ${V.sort==='rating'?'selected':''}>Highest rated</option>
+          <option value="reviewed" ${V.sort==='reviewed'?'selected':''}>Most reviewed</option>
+        </select>
+      </div>
+      ${chips.length?`<div class="chiprow">${chips.join('')}</div>`:''}
+      ${list.length
+        ? `<div class="grid">${list.map(card).join('')}</div>`
+        : `<div class="panel empty"><h3>Nothing matches those filters</h3><p>Try a wider price range, or clear a filter or two.</p><button class="btn btn-ink" onclick="clearFilters()">Clear all filters</button></div>`}
+      ${(!V.q && V.cat==='All') ? viewedStrip(null) : ''}
+    </section>
+  </div>`;
+}
+function toggleBrand(b){ const i = V.brands.indexOf(b); i>-1 ? V.brands.splice(i,1) : V.brands.push(b); paint(); }
+function clearFilters(){ V = {...V, cat:'All', q:'', minRating:0, maxPrice:1000000, inStock:false, brands:[]}; el('q').value=''; el('qm').value=''; paint(); }
+function openFilters(){ el('filters').classList.add('on'); el('scrim').classList.add('on'); }
+
+/* ============ render: product ============ */
+let artAlt = 0;
+function productView(){
+  const p = prod(V.pid);
+  if(!p) return `<div class="panel empty">That product is no longer listed.</div>`;
+  const r = ratingOf(p), saved = wish().includes(p.id);
+  const mine = (S.reviews[p.id]||[]).slice().reverse();
+  const related = PRODUCTS.filter(x=>x.cat===p.cat && x.id!==p.id).slice(0,4);
+  const seed = [
+    {who:'Ngozi A.', when:'2 weeks ago', rating:5, text:'Arrived in Port Harcourt in three days, well packed. Exactly as described.'},
+    {who:'Tunde B.', when:'1 month ago', rating:4, text:'Good value for the price. Took one star off because the manual is thin, but it works fine.'},
+  ];
+  return `
+  <nav class="crumbs"><button onclick="go('home')">Home</button> › <button onclick="pickCat('${p.cat}')">${p.cat}</button> › <span>${esc(p.brand)}</span></nav>
+  <div class="panel pd">
+    <div>
+      <div class="pd-art">${artSVG(p, artAlt)}</div>
+      <div class="swatches">
+        <button aria-current="${artAlt===0}" onclick="artAlt=0;paint()" aria-label="View 1">${artSVG(p,0)}</button>
+        <button aria-current="${artAlt===1}" onclick="artAlt=1;paint()" aria-label="View 2">${artSVG(p,1)}</button>
+      </div>
+    </div>
+    <div>
+      <span class="brandline" style="color:var(--muted)">${esc(p.brand)}</span>
+      <h1>${esc(p.name)}</h1>
+      ${stars(r, reviewCount(p))}
+      <div class="kv"><span>${p.cat}</span><span>•</span><span>Sold by ${esc(p.brand)} Nigeria</span><span>•</span><span>Free returns within 7 days</span></div>
+      <div class="priceblock">${naira(p.price)} ${p.was?`<span class="was" style="font-size:16px">${naira(p.was)}</span>`:''}</div>
+      <p>${esc(p.desc)}</p>
+      <ul class="bullets">${p.bullets.map(b=>`<li>${esc(b)}</li>`).join('')}</ul>
+      <div class="buybox">
+        <div style="font-weight:700;color:${p.stock? 'var(--palm)':'var(--muted)'}">${p.stock ? (p.stock<8?`Only ${p.stock} left in stock`:'In stock') : 'Out of stock'}</div>
+        <div style="color:var(--muted);font-size:14.5px;margin-bottom:10px">Delivery from ${naira(1500)} — arrives in 2–5 working days.</div>
+        <div class="buyrow">
+          ${p.stock ? `
+          <div class="qty">
+            <button onclick="stepQty(-1)" aria-label="Decrease quantity">−</button>
+            <span id="pdq">1</span>
+            <button onclick="stepQty(1)" aria-label="Increase quantity">+</button>
+          </div>
+          <button class="btn btn-brass" onclick="addToCart('${p.id}', +el('pdq').textContent)">Add to cart</button>
+          <button class="btn btn-ink" onclick="buyNow('${p.id}')">Buy now</button>
+          ` : `
+          <button class="btn btn-brass" onclick="toggleNotify('${p.id}')">${notifyList().includes(p.id) ? "You'll be notified ✓" : 'Notify me when back in stock'}</button>
+          `}
+          <button class="btn btn-line" onclick="toggleWish('${p.id}')">${saved?'Saved ♥':'Save for later'}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel reviews" style="margin-top:22px;border-top:none">
+    <h2 style="font-size:22px;padding-top:22px">Customer reviews</h2>
+    ${me() ? `
+      <div style="background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:16px;margin:14px 0">
+        <strong>Write a review as ${esc(me().name)}</strong>
+        <div class="rate-pick" id="ratePick">${[1,2,3,4,5].map(i=>`<button class="${i<=newRating?'on':''}" onclick="newRating=${i};paint()" aria-label="${i} star${i>1?'s':''}">${STAR}</button>`).join('')}</div>
+        <textarea id="rtext" placeholder="What should other shoppers know?"></textarea>
+        <button class="btn btn-ink" style="margin-top:10px" onclick="postReview('${p.id}')">Post review</button>
+      </div>`
+      : `<p style="color:var(--muted)"><button class="link" onclick="openAuth('login')">Sign in</button> to leave a review.</p>`}
+    ${mine.map(rv=>`<div class="review"><div class="who">${esc(rv.who)}</div>${stars(rv.rating)}<div class="when">${esc(rv.when)}</div><p>${esc(rv.text)}</p></div>`).join('')}
+    ${seed.map(rv=>`<div class="review"><div class="who">${rv.who}</div>${stars(rv.rating)}<div class="when">${rv.when}</div><p>${rv.text}</p></div>`).join('')}
+  </div>
+
+  <h2 style="font-size:22px;margin:28px 0 14px">More in ${p.cat}</h2>
+  <div class="grid" style="margin-bottom:20px">${related.map(card).join('')}</div>
+  <div style="margin-bottom:50px">${viewedStrip(p.id)}</div>`;
+}
+let newRating = 5;
+function toggleNotify(id){
+  const list = notifyList(); const i = list.indexOf(id);
+  if(i>-1){ list.splice(i,1); toast('You will not be notified for this item.'); }
+  else { list.push(id); toast("Got it — we'll email you when it's back."); }
+  save(); paint();
+}
+function viewedStrip(excludeId){
+  const ids = bucket().viewed.filter(id=>id!==excludeId).slice(0,8);
+  const list = ids.map(prod).filter(Boolean);
+  if(!list.length) return '';
+  return `<h2 style="font-size:20px;margin:30px 0 14px">Recently viewed</h2>
+    <div class="viewedrow">${list.map(p=>`
+      <button class="viewed-card" onclick="openProduct('${p.id}')">
+        <span class="art">${artSVG(p)}</span>
+        <span class="nm">${esc(p.name)}</span>
+        <span class="pr">${naira(p.price)}</span>
+      </button>`).join('')}
+    </div>`;
+}
+function stepQty(d){
+  const n = el('pdq'); const p = prod(V.pid);
+  let v = +n.textContent + d;
+  if(v<1) v=1; if(v>p.stock){ v=p.stock; toast(`Only ${p.stock} available.`); }
+  n.textContent = v;
+}
+function buyNow(id){ addToCart(id, +el('pdq').textContent); go('checkout'); }
+function postReview(id){
+  const t = el('rtext').value.trim();
+  if(t.length<4){ toast('Add a few words about the product first.'); return; }
+  (S.reviews[id] ||= []).push({ who: me().name, when:'Just now', rating:newRating, text:t });
+  newRating = 5; save(); paint(); toast('Review posted. Thank you.');
+}
+
+/* ============ render: saved ============ */
+function savedView(){
+  const list = wish().map(prod).filter(Boolean);
+  return `<div class="page panel">
+    <h1>Saved items</h1>
+    <p style="color:var(--muted)">${list.length ? 'Things you set aside for later.' : 'Nothing saved yet.'}</p>
+    ${list.length
+      ? `<div class="grid" style="margin-top:18px">${list.map(card).join('')}</div>`
+      : `<div class="empty"><h3>Your saved list is empty</h3><p>Tap the heart on any product to keep it here.</p><button class="btn btn-ink" onclick="go('home')">Start browsing</button></div>`}
+  </div>`;
+}
+
+/* ============ render: account ============ */
+function accountView(){
+  if(!me()) return `<div class="page panel empty"><h3>Sign in to manage your account</h3><p>Profile, addresses and alerts live under your account.</p><button class="btn btn-ink" onclick="openAuth('login')">Sign in</button></div>`;
+  const u = me();
+  const tabs = [['profile','Profile'],['addresses','Addresses'],['notify','Stock alerts']];
+  return `<div class="page panel">
+    <h1>Account</h1>
+    <div class="tabs" style="border-radius:12px;overflow:hidden;margin:16px 0 22px">
+      ${tabs.map(([k,l])=>`<button aria-selected="${V.acctTab===k}" onclick="V.acctTab='${k}';paint()">${l}</button>`).join('')}
+    </div>
+    ${V.acctTab==='profile' ? `
+      <div style="max-width:420px">
+        <div class="field" id="f-pn"><label for="pn">Full name</label><input id="pn" value="${esc(u.name)}"><div class="err"></div></div>
+        <div class="field"><label>Email</label><input value="${esc(u.email)}" disabled style="opacity:.65"></div>
+        <button class="btn btn-ink" onclick="saveProfileName()">Save changes</button>
+        <h3 style="font-size:17px;margin:28px 0 12px">Change password</h3>
+        <div class="field" id="f-cur"><label for="cur">Current password</label><input id="cur" type="password"><div class="err"></div></div>
+        <div class="field" id="f-nw"><label for="nw">New password</label><input id="nw" type="password"><div class="err"></div></div>
+        <div class="field" id="f-nw2"><label for="nw2">Confirm new password</label><input id="nw2" type="password"><div class="err"></div></div>
+        <button class="btn btn-line" onclick="changePassword()">Update password</button>
+      </div>` : ''}
+    ${V.acctTab==='addresses' ? `
+      ${addresses().length ? addresses().map(a=>`
+        <div class="order" style="padding:14px 16px;display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px">
+            <strong>${esc(a.name)} ${a.isDefault?'<span style="color:var(--palm);font-weight:700">· Default</span>':''}</strong>
+            <div style="color:var(--muted);font-size:14px">${esc(a.addr)}, ${esc(a.city)}, ${esc(a.state)} · ${esc(a.phone)}</div>
+          </div>
+          <div style="display:flex;gap:8px">
+            ${!a.isDefault?`<button class="link" onclick="setDefaultAddress('${a.id}')">Make default</button>`:''}
+            <button class="link" style="color:var(--coral)" onclick="removeAddress('${a.id}')">Remove</button>
+          </div>
+        </div>`).join('') : `<p style="color:var(--muted)">No saved addresses yet — they're added automatically the next time you check out.</p>`}
+      ${V.addrFormAcct ? `
+        <div style="max-width:420px;margin-top:16px">
+          <div class="field" id="f-an"><label for="an">Full name</label><input id="an"><div class="err"></div></div>
+          <div class="field" id="f-ap"><label for="ap">Phone number</label><input id="ap"><div class="err"></div></div>
+          <div class="field" id="f-aa"><label for="aa">Street address</label><input id="aa"><div class="err"></div></div>
+          <div class="row2">
+            <div class="field" id="f-ac"><label for="ac">City</label><input id="ac"><div class="err"></div></div>
+            <div class="field" id="f-as"><label for="as">State</label><select id="as">${NG_STATES.map(s=>`<option>${s}</option>`).join('')}</select></div>
+          </div>
+          <div style="display:flex;gap:10px"><button class="btn btn-ink" onclick="addAddressFromAccount()">Save address</button><button class="btn btn-line" onclick="V.addrFormAcct=false;paint()">Cancel</button></div>
+        </div>` : `<button class="btn btn-line" style="margin-top:14px" onclick="V.addrFormAcct=true;paint()">+ Add a new address</button>`}
+    ` : ''}
+    ${V.acctTab==='notify' ? `
+      ${notifyList().length ? `<div class="grid">${notifyList().map(prod).filter(Boolean).map(card).join('')}</div>`
+        : `<p style="color:var(--muted)">You're not tracking any out-of-stock items. Tap "Notify me" on a sold-out product to add it here.</p>`}
+    ` : ''}
+  </div>`;
+}
+async function saveProfileName(){
+  clearBad();
+  const name = el('pn').value.trim();
+  if(name.length<2){ bad('pn','Enter the name you want on your orders.'); return; }
+  try{
+    const data = await api('/api/auth/me', { method:'PATCH', body: JSON.stringify({name}) });
+    CURRENT_USER = data.user; paint(); toast('Profile updated.');
+  }catch(err){ bad('pn', err.message); }
+}
+async function changePassword(){
+  clearBad();
+  const cur = el('cur').value, nw = el('nw').value, nw2 = el('nw2').value;
+  if(nw.length<6){ bad('nw','Use at least six characters.'); return; }
+  if(nw2!==nw){ bad('nw2','The two passwords do not match.'); return; }
+  try{
+    await api('/api/auth/me/password', { method:'POST', body: JSON.stringify({current: cur, next: nw}) });
+    el('cur').value=''; el('nw').value=''; el('nw2').value='';
+    toast('Password updated.');
+  }catch(err){
+    const fieldMap = {current:'cur', next:'nw'};
+    bad(fieldMap[err.field] || 'cur', err.message);
+  }
+}
+function addAddressFromAccount(){
+  clearBad();
+  const name = el('an').value.trim(), phone = el('ap').value.trim(), addr = el('aa').value.trim(), city = el('ac').value.trim(), state = el('as').value;
+  let ok = true;
+  if(name.length<2){ bad('an','Who should the rider ask for?'); ok=false; }
+  if(phone.replace(/\D/g,'').length<10){ bad('ap','Enter a phone number the rider can call.'); ok=false; }
+  if(addr.length<6){ bad('aa','Add a street and landmark so the rider can find you.'); ok=false; }
+  if(city.length<2){ bad('ac','Which city?'); ok=false; }
+  if(!ok) return;
+  upsertAddress({name,phone,addr,city,state});
+  V.addrFormAcct = false; paint(); toast('Address saved.');
+}
+
+/* ============ render: orders ============ */
+const ORDER_STAGES = ['Order placed','Processing','Shipped','Out for delivery','Delivered'];
+let SERVER_ORDERS = null;
+async function loadOrders(){
+  if(!me()){ SERVER_ORDERS = []; return; }
+  try{
+    const data = await api('/api/orders');
+    SERVER_ORDERS = data.orders; // already newest-first, with `stage` precomputed by the server
+  }catch(err){ /* keep whatever we had cached */ }
+}
+function ordersView(){
+  if(!me()) return `<div class="page panel empty"><h3>Sign in to see your orders</h3><p>Your order history is tied to your account.</p><button class="btn btn-ink" onclick="openAuth('login')">Sign in</button></div>`;
+  const list = SERVER_ORDERS || [];
+  if(!list.length) return `<div class="page panel empty"><h3>No orders yet</h3><p>When you place an order it will show up here with its delivery status.</p><button class="btn btn-ink" onclick="go('home')">Start shopping</button></div>`;
+  return `<div class="page panel">
+    <h1>Your orders</h1>
+    <p style="color:var(--muted)">${list.length} order${list.length===1?'':'s'} placed with this account.</p>
+    ${list.map(o=>{
+      const stage = o.stage;
+      return `
+      <div class="order">
+        <div class="head">
+          <div><span style="color:var(--muted)">Order placed</span><b>${new Date(o.at).toLocaleDateString('en-NG',{day:'numeric',month:'short',year:'numeric'})}</b></div>
+          <div><span style="color:var(--muted)">Total</span><b>${naira(o.total)}</b></div>
+          <div><span style="color:var(--muted)">Deliver to</span><b>${esc(o.ship.name)}, ${esc(o.ship.city)}</b></div>
+          <div><span style="color:var(--muted)">Order #</span><b>${o.id}</b></div>
+          <span class="st">${ORDER_STAGES[stage]}</span>
+        </div>
+        <div class="items">
+          <div class="steps" style="margin:16px 0 4px">${ORDER_STAGES.map((s,i)=>`<div class="step ${i===stage?'on':''} ${i<stage?'done':''}"><i>${i<stage?'✓':i+1}</i>${s}</div>`).join('')}</div>
+          ${o.etaAt && stage<4 ? `<div style="color:var(--muted);font-size:13.5px;margin-bottom:10px">Estimated delivery ${new Date(o.etaAt).toLocaleDateString('en-NG',{weekday:'long',day:'numeric',month:'short'})}</div>` : ''}
+          ${o.items.map(i=>{ const p = prod(i.id); return `
+            <div class="line">
+              <div class="art">${p?artSVG(p):''}</div>
+              <div><h4>${esc(i.name)}</h4><div style="color:var(--muted);font-size:13.5px">Quantity ${i.qty} · ${naira(i.price)} each</div>
+              ${p?`<button class="link" onclick="addToCart('${p.id}')">Buy it again</button>`:''}</div>
+              <div class="meta"><strong>${naira(i.price*i.qty)}</strong></div>
+            </div>`; }).join('')}
+          <div style="padding-top:12px;color:var(--muted);font-size:14px">${esc(o.shipLabel)} · Paid by ${esc(o.payLabel)}</div>
+        </div>
+      </div>`;}).join('')}
+  </div>`;
+}
+
+/* ============ render: checkout ============ */
+const CO = { name:'', phone:'', addr:'', city:'', state:'Rivers', pay:'card', card:'', exp:'', cvv:'', addressId:null, saveAddr:true };
+const NG_STATES = ['Abia','Adamawa','Akwa Ibom','Anambra','Bauchi','Bayelsa','Benue','Borno','Cross River','Delta','Ebonyi','Edo','Ekiti','Enugu','FCT — Abuja','Gombe','Imo','Jigawa','Kaduna','Kano','Katsina','Kebbi','Kogi','Kwara','Lagos','Nasarawa','Niger','Ogun','Ondo','Osun','Oyo','Plateau','Rivers','Sokoto','Taraba','Yobe','Zamfara'];
+
+function upsertAddress(a){
+  const list = addresses();
+  const isFirst = !list.length;
+  const rec = { id:'a'+Date.now(), name:a.name, phone:a.phone, addr:a.addr, city:a.city, state:a.state, isDefault: isFirst };
+  list.push(rec); save(); return rec;
+}
+function removeAddress(id){
+  const list = addresses();
+  const wasDefault = list.find(a=>a.id===id)?.isDefault;
+  bucket().addresses = list.filter(a=>a.id!==id);
+  if(wasDefault && bucket().addresses.length) bucket().addresses[0].isDefault = true;
+  save(); paint(); toast('Address removed.');
+}
+function setDefaultAddress(id){
+  addresses().forEach(a=> a.isDefault = a.id===id );
+  save(); paint(); toast('Default address updated.');
+}
+function fillFromAddress(id){
+  const a = addresses().find(x=>x.id===id); if(!a) return;
+  CO.addressId = id; CO.name=a.name; CO.phone=a.phone; CO.addr=a.addr; CO.city=a.city; CO.state=a.state;
+  V.addrForm = false; paint();
+}
+
+function checkoutView(){
+  if(V.coStep===3) return doneView();
+  if(!cart().length) return `<div class="page panel empty"><h3>Your cart is empty</h3><p>Add something to it and checkout will open up.</p><button class="btn btn-ink" onclick="go('home')">Browse products</button></div>`;
+  if(!me()) return `<div class="page panel empty"><h3>Sign in to check out</h3><p>Your cart is saved. Sign in or create an account to place the order.</p>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px">
+      <button class="btn btn-ink" onclick="openAuth('login')">Sign in</button>
+      <button class="btn btn-line" onclick="openAuth('signup')">Create an account</button></div></div>`;
+  if(!CO.name && !CO.addressId){
+    const d = addresses().find(a=>a.isDefault);
+    if(d) fillAddressSilently(d.id); else CO.name = me().name;
+  }
+
+  const steps = ['Delivery address','Delivery &amp; payment','Review order'];
+  const bar = `<div class="steps">${steps.map((s,i)=>`<div class="step ${i===V.coStep?'on':''} ${i<V.coStep?'done':''}"><i>${i<V.coStep?'✓':i+1}</i>${s}</div>`).join('')}</div>`;
+
+  let body = '';
+  if(V.coStep===0){
+    const savedAddrs = addresses();
+    const showForm = V.addrForm || !savedAddrs.length;
+    body = `<h2 style="font-size:20px;margin-bottom:14px">Where should it go?</h2>
+      ${savedAddrs.length ? savedAddrs.map(a=>`
+        <label class="pay-opt ${CO.addressId===a.id?'sel':''}">
+          <input type="radio" name="addr" ${CO.addressId===a.id?'checked':''} onchange="fillFromAddress('${a.id}')">
+          <span><strong>${esc(a.name)} ${a.isDefault?'· <span style=\"color:var(--palm)\">Default</span>':''}</strong>
+          <small>${esc(a.addr)}, ${esc(a.city)}, ${esc(a.state)} · ${esc(a.phone)}</small></span>
+        </label>`).join('') : ''}
+      ${savedAddrs.length && !showForm ? `<button class="link" style="margin:4px 0 16px" onclick="V.addrForm=true;CO.addressId=null;paint()">+ Deliver to a new address</button>` : ''}
+      ${showForm ? `
+      <div class="field" id="f-cn"><label for="cn">Full name</label><input id="cn" value="${esc(CO.name)}"><div class="err"></div></div>
+      <div class="field" id="f-cp"><label for="cp">Phone number</label><input id="cp" inputmode="tel" placeholder="0803 000 0000" value="${esc(CO.phone)}"><div class="err"></div></div>
+      <div class="field" id="f-ca"><label for="ca">Street address</label><input id="ca" placeholder="12 Aba Road, Rumuola" value="${esc(CO.addr)}"><div class="err"></div></div>
+      <div class="row2">
+        <div class="field" id="f-cc"><label for="cc">City</label><input id="cc" placeholder="Port Harcourt" value="${esc(CO.city)}"><div class="err"></div></div>
+        <div class="field" id="f-cs"><label for="cs">State</label><select id="cs">${NG_STATES.map(s=>`<option ${CO.state===s?'selected':''}>${s}</option>`).join('')}</select><div class="err"></div></div>
+      </div>
+      <label style="display:flex;gap:8px;align-items:center;font-size:14px;margin-bottom:14px"><input type="checkbox" id="cSave" ${CO.saveAddr?'checked':''}> Save this address to my account</label>
+      ` : ''}
+      <button class="btn btn-ink" onclick="saveAddress()">Continue to delivery</button>`;
+  } else if(V.coStep===1){
+    body = `<h2 style="font-size:20px;margin-bottom:14px">How should it get there?</h2>
+      ${Object.entries(SHIP).map(([k,s])=>`
+        <label class="pay-opt ${shipChoice===k?'sel':''}">
+          <input type="radio" name="ship" ${shipChoice===k?'checked':''} onchange="shipChoice='${k}';paint()">
+          <span><strong>${s.label}</strong><small>${s.fee? naira(s.fee) : 'Free'} · ${k==='pickup'?'Collect from the Rumuola hub':'Delivered to your address'}</small></span>
+        </label>`).join('')}
+      <h2 style="font-size:20px;margin:22px 0 14px">How would you like to pay?</h2>
+      <label class="pay-opt ${CO.pay==='card'?'sel':''}"><input type="radio" name="pay" ${CO.pay==='card'?'checked':''} onchange="CO.pay='card';paint()">
+        <span><strong>Debit card</strong><small>Verve, Mastercard or Visa</small></span></label>
+      ${CO.pay==='card'?`
+        <div style="padding:0 6px 6px">
+          <div class="field" id="f-nu"><label for="nu">Card number</label><input id="nu" inputmode="numeric" placeholder="0000 0000 0000 0000" value="${esc(CO.card)}" oninput="fmtCard(this)"><div class="err"></div></div>
+          <div class="row2">
+            <div class="field" id="f-ex"><label for="ex">Expiry</label><input id="ex" inputmode="numeric" placeholder="MM/YY" value="${esc(CO.exp)}" oninput="fmtExp(this)"><div class="err"></div></div>
+            <div class="field" id="f-cv"><label for="cv">CVV</label><input id="cv" inputmode="numeric" placeholder="123" maxlength="4" value="${esc(CO.cvv)}"><div class="err"></div></div>
+          </div>
+          <p class="note">Encrypted in transit. Anchor never stores your full card number.</p>
+        </div>`:''}
+      <label class="pay-opt ${CO.pay==='transfer'?'sel':''}"><input type="radio" name="pay" ${CO.pay==='transfer'?'checked':''} onchange="CO.pay='transfer';paint()">
+        <span><strong>Bank transfer</strong><small>We show account details after you place the order</small></span></label>
+      <label class="pay-opt ${CO.pay==='cod'?'sel':''}"><input type="radio" name="pay" ${CO.pay==='cod'?'checked':''} onchange="CO.pay='cod';paint()">
+        <span><strong>Pay on delivery</strong><small>Cash or transfer when the rider arrives</small></span></label>
+      <div style="display:flex;gap:10px;margin-top:8px">
+        <button class="btn btn-line" onclick="V.coStep=0;paint()">Back</button>
+        <button class="btn btn-ink" onclick="savePayment()">Review order</button>
+      </div>`;
+  } else {
+    body = `<h2 style="font-size:20px;margin-bottom:14px">Check everything over</h2>
+      <div style="background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px">
+        <strong>Delivering to</strong>
+        <div style="color:var(--muted)">${esc(CO.name)} · ${esc(CO.phone)}<br>${esc(CO.addr)}, ${esc(CO.city)}, ${esc(CO.state)}</div>
+        <button class="link" onclick="V.coStep=0;paint()">Change address</button>
+      </div>
+      <div style="background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px">
+        <strong>${SHIP[shipChoice].label} · ${payLabel()}</strong>
+        <div style="color:var(--muted)">${shipFee()? naira(shipFee())+' delivery' : 'No delivery fee'}</div>
+        <button class="link" onclick="V.coStep=1;paint()">Change</button>
+      </div>
+      ${cart().map(i=>{ const p = prod(i.id); return `
+        <div class="line"><div class="art">${artSVG(p)}</div>
+          <div><h4>${esc(p.name)}</h4><div style="color:var(--muted);font-size:13.5px">Quantity ${i.qty}</div></div>
+          <div class="meta"><strong>${naira(p.price*i.qty)}</strong></div></div>`; }).join('')}
+      <div style="display:flex;gap:10px;margin-top:18px">
+        <button class="btn btn-line" onclick="V.coStep=1;paint()">Back</button>
+        <button class="btn btn-brass" onclick="placeOrder()">Place order · ${naira(grandTotal())}</button>
+      </div>`;
+  }
+
+  return `<div class="page panel">
+    <h1>Checkout</h1>
+    ${bar}
+    <div class="co">
+      <div>${body}</div>
+      <aside class="summary">
+        <h3 style="font-size:18px;margin-bottom:10px">Order summary</h3>
+        <div class="totals">
+          <div><span>Items (${cartCount()})</span><span>${naira(subtotal())}</span></div>
+          ${discount()?`<div style="color:var(--palm)"><span>Discount (${V.promo})</span><span>−${naira(discount())}</span></div>`:''}
+          <div><span>Delivery</span><span>${shipFee()? naira(shipFee()) : 'Free'}</span></div>
+          <div class="grand"><span>Total</span><span>${naira(grandTotal())}</span></div>
+        </div>
+        <button class="btn btn-line btn-wide" style="margin-top:12px" onclick="openCart()">Edit cart</button>
+      </aside>
+    </div>
+  </div>`;
+}
+const payLabel = () => ({card:'Debit card', transfer:'Bank transfer', cod:'Pay on delivery'})[CO.pay];
+function fmtCard(i){ i.value = i.value.replace(/\D/g,'').slice(0,16).replace(/(.{4})/g,'$1 ').trim(); CO.card = i.value; }
+function fmtExp(i){ let v = i.value.replace(/\D/g,'').slice(0,4); if(v.length>2) v = v.slice(0,2)+'/'+v.slice(2); i.value=v; CO.exp=v; }
+function fillAddressSilently(id){
+  const a = addresses().find(x=>x.id===id); if(!a) return;
+  CO.addressId = id; CO.name=a.name; CO.phone=a.phone; CO.addr=a.addr; CO.city=a.city; CO.state=a.state;
+}
+function saveAddress(){
+  if(CO.addressId && !V.addrForm){ V.coStep = 1; paint(); return; }
+  clearBad();
+  CO.name = el('cn').value.trim(); CO.phone = el('cp').value.trim();
+  CO.addr = el('ca').value.trim(); CO.city = el('cc').value.trim(); CO.state = el('cs').value;
+  CO.saveAddr = el('cSave') ? el('cSave').checked : true;
+  let ok = true;
+  if(CO.name.length<2){ bad('cn','Who should the rider ask for?'); ok=false; }
+  if(CO.phone.replace(/\D/g,'').length<10){ bad('cp','Enter a phone number the rider can call.'); ok=false; }
+  if(CO.addr.length<6){ bad('ca','Add a street and landmark so the rider can find you.'); ok=false; }
+  if(CO.city.length<2){ bad('cc','Which city?'); ok=false; }
+  if(!ok) return;
+  if(CO.saveAddr){
+    const rec = upsertAddress({name:CO.name, phone:CO.phone, addr:CO.addr, city:CO.city, state:CO.state});
+    CO.addressId = rec.id;
+  }
+  V.addrForm = false;
+  V.coStep = 1; paint();
+}
+function savePayment(){
+  clearBad();
+  if(CO.pay==='card'){
+    CO.card = el('nu').value; CO.exp = el('ex').value; CO.cvv = el('cv').value;
+    let ok = true;
+    if(CO.card.replace(/\D/g,'').length<16){ bad('nu','A card number has 16 digits.'); ok=false; }
+    if(!/^\d{2}\/\d{2}$/.test(CO.exp)){ bad('ex','Use MM/YY.'); ok=false; }
+    else if(+CO.exp.slice(0,2)>12 || +CO.exp.slice(0,2)<1){ bad('ex','That month does not exist.'); ok=false; }
+    if(CO.cvv.replace(/\D/g,'').length<3){ bad('cv','Three digits on the back.'); ok=false; }
+    if(!ok) return;
+  }
+  V.coStep = 2; paint();
+}
+async function placeOrder(){
+  const btn = event?.target; if(btn) btn.disabled = true;
+  try{
+    const data = await api('/api/orders', { method:'POST', body: JSON.stringify({
+      name: CO.name, phone: CO.phone, addr: CO.addr, city: CO.city, state: CO.state,
+      shipChoice, payChoice: CO.pay, promo: V.promo
+    })});
+    SERVER_CART = []; // the same server transaction that created the order emptied the cart
+    V.lastOrder = {
+      id: data.orderId, total: data.total, etaAt: data.etaAt,
+      shipLabel: SHIP[shipChoice].label, payLabel: payLabel()
+    };
+    V.promo = null; V.coStep = 3;
+    paint(); window.scrollTo({top:0});
+    loadOrders(); // refresh the Orders page cache in the background
+  }catch(err){
+    toast(err.message);
+    await refreshCart(); paint();
+  }finally{
+    if(btn) btn.disabled = false;
+  }
+}
+function doneView(){
+  const o = V.lastOrder;
+  return `<div class="page panel" style="text-align:center;max-width:620px;margin:30px auto">
+    <div class="done-mark"><svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4.5 4.5L19 7"/></svg></div>
+    <h1>Order placed</h1>
+    <p style="color:var(--muted)">Order ${o.id} · ${naira(o.total)} · ${esc(o.shipLabel)}</p>
+    <p>We sent a confirmation to ${esc(me().email)}. You can follow it from your orders page${o.payLabel==='Bank transfer'?', where the transfer details are waiting':''}.</p>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px">
+      <button class="btn btn-ink" onclick="go('orders')">See your orders</button>
+      <button class="btn btn-line" onclick="go('home')">Keep shopping</button>
+    </div>
+  </div>`;
+}
+
+/* ============ render: cart drawer ============ */
+function paintCart(){
+  const items = cart();
+  el('cartBody').innerHTML = items.length ? items.map(i=>{
+    const p = prod(i.id); if(!p) return '';
+    return `<div class="line">
+      <div class="art">${artSVG(p)}</div>
+      <div style="min-width:0">
+        <h4>${esc(p.name)}</h4>
+        <div style="color:var(--palm);font-weight:700">${naira(p.price)}</div>
+        <div style="display:flex;gap:10px;align-items:center;margin-top:7px">
+          <span class="mini">
+            <button onclick="setQty('${p.id}',${i.qty-1})" aria-label="Decrease">−</button>
+            <span>${i.qty}</span>
+            <button onclick="setQty('${p.id}',${i.qty+1})" aria-label="Increase">+</button>
+          </span>
+          <button class="link" onclick="removeLine('${p.id}')">Remove</button>
+        </div>
+      </div>
+      <div class="meta"><strong>${naira(p.price*i.qty)}</strong></div>
+    </div>`;
+  }).join('') : `<div class="empty"><h3>Your cart is empty</h3><p>Nothing in here yet.</p><button class="btn btn-ink" onclick="closeAll();go('home')">Browse products</button></div>`;
+
+  el('cartFoot').innerHTML = items.length ? `
+    <div class="promo">
+      <input id="promo" placeholder="Promo code" value="${V.promo||''}" aria-label="Promo code">
+      <button class="btn btn-line" onclick="applyPromo()">Apply</button>
+    </div>
+    ${V.promo?`<div style="color:var(--palm);font-size:13.5px;margin-bottom:8px">${V.promo} applied — ${PROMOS[V.promo].label}. <button class="link" onclick="V.promo=null;paintCart()">Remove</button></div>`
+             :`<div style="color:var(--muted);font-size:13px;margin-bottom:8px">Have a code? Try ANCHOR10, NEWBIE or FREESHIP.</div>`}
+    <div class="totals">
+      <div><span>Subtotal</span><span>${naira(subtotal())}</span></div>
+      ${discount()?`<div style="color:var(--palm)"><span>Discount</span><span>−${naira(discount())}</span></div>`:''}
+      <div><span>Delivery</span><span>${shipFee()? naira(shipFee()):'Free'}</span></div>
+      <div class="grand"><span>Total</span><span>${naira(grandTotal())}</span></div>
+    </div>
+    <button class="btn btn-brass btn-wide" style="margin-top:12px" onclick="closeAll();go('checkout')">Checkout</button>` : '';
+}
+function applyPromo(){
+  const code = el('promo').value.trim().toUpperCase();
+  if(!code){ V.promo=null; paintCart(); return; }
+  if(!PROMOS[code]){ toast('That promo code is not recognised.'); return; }
+  V.promo = code; paintCart(); toast(`${code} applied — ${PROMOS[code].label}.`);
+}
+
+/* ============ paint ============ */
+function paint(){
+  paintChrome();
+  const v = V.view;
+  el('main').innerHTML =
+    v==='product'  ? productView()  :
+    v==='saved'    ? savedView()    :
+    v==='orders'   ? ordersView()   :
+    v==='account'  ? accountView()  :
+    v==='checkout' ? checkoutView() : homeView();
+  paintCart();
+}
+
+/* ============ boot ============ */
+load();
+if(S.theme) document.documentElement.setAttribute('data-theme', S.theme);
+document.body.insertAdjacentHTML('beforeend', `
+  <nav class="mobilebar" aria-label="Main">
+    <button data-v="home" onclick="go('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11l8-7 8 7v8a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1z"/></svg>Shop</button>
+    <button data-v="saved" onclick="go('saved')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20s-7-4.6-7-9.4A4 4 0 0 1 12 8a4 4 0 0 1 7 2.6C19 15.4 12 20 12 20z"/></svg>Saved</button>
+    <button data-v="cart" onclick="openCart()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 4h2.2l2.2 11h10.2l2.2-8H6.4"/><circle cx="9" cy="19.5" r="1.5"/><circle cx="17" cy="19.5" r="1.5"/></svg>Cart</button>
+    <button data-v="orders" onclick="go('orders')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h14v16H5z"/><path d="M9 9h6M9 13h6"/></svg>Orders</button>
+  </nav>`);
+el('q').addEventListener('input', suggest);
+el('q').addEventListener('keydown', e=>{ if(e.key==='Enter') runSearch(); });
+el('qm').addEventListener('keydown', e=>{ if(e.key==='Enter') runSearch(true); });
+
+async function boot(){
+  if(TOKEN){
+    try{
+      const data = await api('/api/auth/me');
+      CURRENT_USER = data.user;
+      S.session = data.user.email;
+      if(!S.data[S.session]) S.data[S.session] = {cart:[],wish:[],orders:[],addresses:[],notify:[],viewed:[]};
+      await mergeGuest();
+    }catch(err){
+      TOKEN = null; CURRENT_USER = null; localStorage.removeItem('anchor:token');
+    }
+  }
+  paint();
+}
+boot();
+</script>
+</body>
+</html>
