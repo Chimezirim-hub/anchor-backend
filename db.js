@@ -5,7 +5,10 @@
 const path = require('path');
 const { DatabaseSync } = require('node:sqlite');
 
-const DB_PATH = path.join(__dirname, 'anchor.db');
+// In production (e.g. Render), set DB_PATH to a file on your persistent disk
+// (e.g. /data/anchor.db) so the database survives deploys and restarts.
+// Locally, it defaults to a file right next to this script.
+const DB_PATH = process.env.DB_PATH || path.join(__dirname, 'anchor.db');
 const db = new DatabaseSync(DB_PATH);
 db.exec('PRAGMA journal_mode = WAL');
 db.exec('PRAGMA foreign_keys = ON');
@@ -94,7 +97,8 @@ CREATE TABLE IF NOT EXISTS orders (
   ship_city TEXT NOT NULL,
   ship_state TEXT NOT NULL,
   ship_label TEXT NOT NULL,
-  pay_label TEXT NOT NULL
+  pay_label TEXT NOT NULL,
+  paystack_reference TEXT UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS order_items (

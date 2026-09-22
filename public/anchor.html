@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://js.paystack.co/v2/inline.js"></script>
 <style>
 :root{
   --bg:#110F1B; --surface:#1B1828; --surface2:#231F33; --line:#363051;
@@ -1353,7 +1354,7 @@ function ordersView(){
 }
 
 /* ============ render: checkout ============ */
-const CO = { name:'', phone:'', addr:'', city:'', state:'Rivers', pay:'card', card:'', exp:'', cvv:'', addressId:null, saveAddr:true };
+const CO = { name:'', phone:'', addr:'', city:'', state:'Rivers', pay:'card', addressId:null, saveAddr:true };
 const NG_STATES = ['Abia','Adamawa','Akwa Ibom','Anambra','Bauchi','Bayelsa','Benue','Borno','Cross River','Delta','Ebonyi','Edo','Ekiti','Enugu','FCT — Abuja','Gombe','Imo','Jigawa','Kaduna','Kano','Katsina','Kebbi','Kogi','Kwara','Lagos','Nasarawa','Niger','Ogun','Ondo','Osun','Oyo','Plateau','Rivers','Sokoto','Taraba','Yobe','Zamfara'];
 
 function upsertAddress(a){
@@ -1426,16 +1427,7 @@ function checkoutView(){
         </label>`).join('')}
       <h2 style="font-size:20px;margin:22px 0 14px">How would you like to pay?</h2>
       <label class="pay-opt ${CO.pay==='card'?'sel':''}"><input type="radio" name="pay" ${CO.pay==='card'?'checked':''} onchange="CO.pay='card';paint()">
-        <span><strong>Debit card</strong><small>Verve, Mastercard or Visa</small></span></label>
-      ${CO.pay==='card'?`
-        <div style="padding:0 6px 6px">
-          <div class="field" id="f-nu"><label for="nu">Card number</label><input id="nu" inputmode="numeric" placeholder="0000 0000 0000 0000" value="${esc(CO.card)}" oninput="fmtCard(this)"><div class="err"></div></div>
-          <div class="row2">
-            <div class="field" id="f-ex"><label for="ex">Expiry</label><input id="ex" inputmode="numeric" placeholder="MM/YY" value="${esc(CO.exp)}" oninput="fmtExp(this)"><div class="err"></div></div>
-            <div class="field" id="f-cv"><label for="cv">CVV</label><input id="cv" inputmode="numeric" placeholder="123" maxlength="4" value="${esc(CO.cvv)}"><div class="err"></div></div>
-          </div>
-          <p class="note">Encrypted in transit. Anchor never stores your full card number.</p>
-        </div>`:''}
+        <span><strong>Debit card</strong><small>Verve, Mastercard or Visa — via Paystack's secure checkout</small></span></label>
       <label class="pay-opt ${CO.pay==='transfer'?'sel':''}"><input type="radio" name="pay" ${CO.pay==='transfer'?'checked':''} onchange="CO.pay='transfer';paint()">
         <span><strong>Bank transfer</strong><small>We show account details after you place the order</small></span></label>
       <label class="pay-opt ${CO.pay==='cod'?'sel':''}"><input type="radio" name="pay" ${CO.pay==='cod'?'checked':''} onchange="CO.pay='cod';paint()">
@@ -1484,9 +1476,7 @@ function checkoutView(){
     </div>
   </div>`;
 }
-const payLabel = () => ({card:'Debit card', transfer:'Bank transfer', cod:'Pay on delivery'})[CO.pay];
-function fmtCard(i){ i.value = i.value.replace(/\D/g,'').slice(0,16).replace(/(.{4})/g,'$1 ').trim(); CO.card = i.value; }
-function fmtExp(i){ let v = i.value.replace(/\D/g,'').slice(0,4); if(v.length>2) v = v.slice(0,2)+'/'+v.slice(2); i.value=v; CO.exp=v; }
+const payLabel = () => ({card:'Debit card (Paystack)', transfer:'Bank transfer', cod:'Pay on delivery'})[CO.pay];
 function fillAddressSilently(id){
   const a = addresses().find(x=>x.id===id); if(!a) return;
   CO.addressId = id; CO.name=a.name; CO.phone=a.phone; CO.addr=a.addr; CO.city=a.city; CO.state=a.state;
@@ -1512,23 +1502,41 @@ function saveAddress(){
 }
 function savePayment(){
   clearBad();
-  if(CO.pay==='card'){
-    CO.card = el('nu').value; CO.exp = el('ex').value; CO.cvv = el('cv').value;
-    let ok = true;
-    if(CO.card.replace(/\D/g,'').length<16){ bad('nu','A card number has 16 digits.'); ok=false; }
-    if(!/^\d{2}\/\d{2}$/.test(CO.exp)){ bad('ex','Use MM/YY.'); ok=false; }
-    else if(+CO.exp.slice(0,2)>12 || +CO.exp.slice(0,2)<1){ bad('ex','That month does not exist.'); ok=false; }
-    if(CO.cvv.replace(/\D/g,'').length<3){ bad('cv','Three digits on the back.'); ok=false; }
-    if(!ok) return;
-  }
   V.coStep = 2; paint();
 }
-async function placeOrder(){
-  const btn = event?.target; if(btn) btn.disabled = true;
+let PAYSTACK_PUBLIC_KEY = null;
+async function loadConfig(){
+  try{ const data = await api('/api/config'); PAYSTACK_PUBLIC_KEY = data.paystackPublicKey; }
+  catch(err){ /* card payment will just show as unavailable */ }
+}
+let orderSubmitting = false;
+function placeOrder(){
+  if(orderSubmitting) return;
+  if(CO.pay === 'card'){
+    if(!PAYSTACK_PUBLIC_KEY){ toast('Card payment is not set up on this store yet. Try bank transfer or pay on delivery.'); return; }
+    orderSubmitting = true;
+    try{
+      const paystack = new PaystackPop();
+      paystack.newTransaction({
+        key: PAYSTACK_PUBLIC_KEY,
+        email: me().email,
+        amount: Math.round(grandTotal()*100),
+        currency: 'NGN',
+        onSuccess: (transaction)=>{ submitOrder(transaction.reference); },
+        onCancel: ()=>{ orderSubmitting=false; toast('Payment cancelled.'); },
+        onError: ()=>{ orderSubmitting=false; toast('The payment window failed to load. Please try again.'); }
+      });
+    }catch(err){ orderSubmitting=false; toast('Could not open the payment window.'); }
+    return;
+  }
+  submitOrder(null);
+}
+async function submitOrder(paystackReference){
+  orderSubmitting = true;
   try{
     const data = await api('/api/orders', { method:'POST', body: JSON.stringify({
       name: CO.name, phone: CO.phone, addr: CO.addr, city: CO.city, state: CO.state,
-      shipChoice, payChoice: CO.pay, promo: V.promo
+      shipChoice, payChoice: CO.pay, promo: V.promo, paystackReference
     })});
     SERVER_CART = []; // the same server transaction that created the order emptied the cart
     V.lastOrder = {
@@ -1542,7 +1550,7 @@ async function placeOrder(){
     toast(err.message);
     await refreshCart(); paint();
   }finally{
-    if(btn) btn.disabled = false;
+    orderSubmitting = false;
   }
 }
 function doneView(){
@@ -1633,6 +1641,7 @@ el('q').addEventListener('keydown', e=>{ if(e.key==='Enter') runSearch(); });
 el('qm').addEventListener('keydown', e=>{ if(e.key==='Enter') runSearch(true); });
 
 async function boot(){
+  loadConfig(); // fire-and-forget; card payment just stays unavailable until this resolves
   if(TOKEN){
     try{
       const data = await api('/api/auth/me');

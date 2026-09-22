@@ -25,6 +25,10 @@ app.use('/api/notify', require('./routes/notify'));
 app.use('/api/reviews', require('./routes/reviews'));
 app.use('/api/admin', require('./routes/admin'));
 
+app.get('/health', (req, res) => res.status(200).json({ ok: true }));
+app.get('/api/config', (req, res) => res.json({ paystackPublicKey: process.env.PAYSTACK_PUBLIC_KEY || null }));
+app.get('/', (req, res) => res.redirect('/anchor.html'));
+
 // Serves the frontend (public/anchor.html) at the same origin as the API,
 // so the browser never has to deal with cross-origin requests.
 app.use(express.static(path.join(__dirname, 'public')));

@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { v4: uuid } = require('uuid');
 const db = require('../db');
+const { welcomeEmail } = require('../lib/email');
 const { requireAuth } = require('../middleware/auth');
 
 const router = express.Router();
@@ -17,7 +18,10 @@ function signToken(user) {
   );
 }
 
-function publicUser(u) { const isAdmin = !!process.env.ADMIN_EMAIL && u.email.toLowerCase() === process.env.ADMIN_EMAIL.toLowerCase(); return { id: u.id, name: u.name, email: u.email, isAdmin }; }
+function publicUser(u) {
+  const isAdmin = !!process.env.ADMIN_EMAIL && u.email.toLowerCase() === process.env.ADMIN_EMAIL.toLowerCase();
+  return { id: u.id, name: u.name, email: u.email, isAdmin };
+}
 
 router.post('/signup', (req, res) => {
   const { name, email, password } = req.body || {};
@@ -38,6 +42,7 @@ router.post('/signup', (req, res) => {
 
   const token = signToken(user);
   res.status(201).json({ token, user: publicUser(user) });
+  welcomeEmail(user).catch(() => {}); // fire-and-forget, after the response is already sent
 });
 
 router.post('/login', (req, res) => {
